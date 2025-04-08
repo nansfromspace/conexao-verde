@@ -5,13 +5,15 @@
     right: 0;
     width: 100vw;
     margin: 0;
-    padding: 12px 0;
-    background-color: #174537;
+    padding: 12px 18px;
+    background-color: #3b5704;
     border-top: 1px solid #ccc;
     display: flex;
     justify-content: space-around;
     z-index: 10;
     box-sizing: border-box;
+    height: 50px;
+    align-items: center;
   }
   
   .nav-button {

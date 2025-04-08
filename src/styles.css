@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+/* Aplicar Roboto em todo o app */
+* {
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html, body {
+    font-family: 'Roboto', sans-serif;
+    height: 100%;
+    background-color: #fff;
+  }
+  

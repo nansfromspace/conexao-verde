@@ -1,0 +1,81 @@
+.saudacao {
+    font-size: 20px;
+    margin-top: 70px;
+    margin-bottom: 16px;
+    padding: 0 16px;
+  }
+  
+  .botao-mapa {
+    background-color: #d4f141;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 26px;
+    color: #174537;
+    font-weight: bold;
+    font-size: 17px;
+    margin: 20px auto 30px auto; 
+    cursor: pointer;
+    display: block; 
+  }
+  
+  
+  .texto-explicativo {
+    font-size: 16px;
+    color: #174537;
+    margin: 0 16px 24px;
+    text-align: center;
+    font-weight: bolder;
+  }
+  
+  .imagem-home {
+    width: 100%;
+    max-width: 320px;
+    display: block;
+    margin: 0 auto 11px;
+  }
+
+  .conteudo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }  
+  
+  .card-destaque {
+    background-color: rgba(192,236,78,0.5);
+    border-radius: 20px;
+    padding: 21px;
+    margin: 0 16px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .icon i {
+    font-size: 36px;
+    color: #6ab301;
+  }
+  
+  .conteudo .titulo-card {
+    font-size: 13px;
+    margin: 0;
+    color: #666;
+  }
+  
+  .conteudo .nome-projeto {
+    font-size: 20px;
+    margin: 8px 0;
+    color: #174537;
+  }
+  
+  .botao-vermais {
+    background-color: #d4f141;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    color: #174537;
+    cursor: pointer;
+    margin-left: auto;
+  }  
+  

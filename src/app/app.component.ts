@@ -1,19 +1,10 @@
 import { Component } from '@angular/core';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { TopNavComponent } from './shared/top-nav/top-nav.component';
-import { BottomNavComponent } from './shared/bottom-nav/bottom-nav.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  imports: [
-    FontAwesomeModule,
-    TopNavComponent,
-    BottomNavComponent
-  ]
+  imports: [RouterOutlet],
+  template: `<router-outlet></router-outlet>`,
 })
-export class AppComponent {
-  title = 'conexao-verde';
-}
+export class AppComponent {}

@@ -1,32 +1,34 @@
 <div class="registro-container">
     <i class="fa-solid fa-arrow-left"></i>
     <h2>Registre-se</h2>
-  
+
     <label for="nome">Nome completo</label>
     <input type="text" id="nome" placeholder="Digite seu nome" [(ngModel)]="nome" />
-  
+
+    <label for="apelido">Qual é o seu apelido?</label>
+    <input type="text" id="apelido" placeholder="Digite seu apelido" [(ngModel)]="apelido" name="apelido" />
+
     <label for="email">E-mail</label>
     <input type="email" id="email" placeholder="Digite seu e-mail" [(ngModel)]="email" />
-  
+
     <label for="senha">Crie uma senha</label>
     <input type="password" id="senha" placeholder="Crie uma senha" [(ngModel)]="senha" />
-  
+
     <label for="confirmarSenha">Repita a senha</label>
     <input type="password" id="confirmarSenha" placeholder="Confirme a senha" [(ngModel)]="confirmarSenha" />
-    
+
     <!-- mensagens de erro do frontttt -->
     <p *ngIf="erroCampos" class="erro">{{ erroCampos }}</p>
     <p *ngIf="erroEmail" class="erro">{{ erroEmail }}</p>
     <p *ngIf="erroSenha" class="erro">{{ erroSenha }}</p>
 
-  
+
     <p class="texto-login">Já tem uma conta? <a href="#">Faça o login!</a></p>
-  
+
     <!-- botão que chama a função -->
     <button class="botao-registrar" (click)="registrar()">Registrar</button>
     <p *ngIf="mensagemSucesso" class="sucesso">{{ mensagemSucesso }}</p>
 
-  
+
     <p class="texto-esqueci">Esqueceu a senha? <a href="#">Clique aqui!</a></p>
-  </div>  
-  
+</div>

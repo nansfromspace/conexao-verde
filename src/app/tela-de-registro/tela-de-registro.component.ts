@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-tela-de-registro',
@@ -13,6 +14,7 @@ import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 })
 export class TelaDeRegistroComponent {
   nome = '';
+  apelido = '';
   email = '';
   senha = '';
   confirmarSenha = '';
@@ -21,9 +23,9 @@ export class TelaDeRegistroComponent {
   erroEmail = '';
   mensagemSucesso = '';
 
-
   private auth: Auth = inject(Auth);
   private router: Router = inject(Router);
+  private firestore: Firestore = inject(Firestore);
 
   registrar() {
     this.erroSenha = '';
@@ -31,42 +33,40 @@ export class TelaDeRegistroComponent {
     this.erroEmail = '';
     this.mensagemSucesso = '';
 
-    // Aqui faz a validação dos campos obrigatórios
-    if (!this.nome || !this.email || !this.senha || !this.confirmarSenha) {
+    if (!this.nome || !this.apelido || !this.email || !this.senha || !this.confirmarSenha) {
       this.erroCampos = 'Preencha todos os campos, por favor.';
       return;
     }
 
-    // Aqui faz a validação do formato de email
     const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailValido.test(this.email)) {
       this.erroEmail = 'E-mail inválido. Poderia reescrevê-lo?';
       return;
     }
 
-    // Aqui faz a validação se a senhas iguais
     if (this.senha !== this.confirmarSenha) {
       this.erroSenha = 'Ops! As senhas não são iguais. Poderia verificar?';
       return;
     }
 
-    // Aqui faz o registro com o firebase auth
     createUserWithEmailAndPassword(this.auth, this.email, this.senha)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user;
         console.log('Usuário registrado:', user);
-        this.mensagemSucesso = '🎉 Registro efetuado com sucesso!';
 
-        // nessa parte redireciona para a home depois de 1.5 segundos
-        // para dar tempo de ler a mensagem de sucesso
-        // também tem alguns erros tratados e o não tratado abaixo. :)
+        await setDoc(doc(this.firestore, 'usuarios', user.uid), {
+          nome: this.nome,
+          apelido: this.apelido
+        });
+
+        this.mensagemSucesso = 'Registro efetuado com sucesso!';
         setTimeout(() => {
           this.router.navigate(['/home']);
         }, 1500);
       })
       .catch((error) => {
         console.error('Erro ao registrar:', error);
-      
+
         if (error.code === 'auth/email-already-in-use') {
           this.erroEmail = 'Este e-mail já está registrado. Faça o login. :) ';
         } else if (error.code === 'auth/weak-password') {

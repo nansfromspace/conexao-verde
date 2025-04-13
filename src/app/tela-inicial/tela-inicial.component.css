@@ -87,3 +87,19 @@
     padding-bottom: 80px;
     padding: 24px 16px 100px;
   }
+
+  @media (max-width: 420px) {
+    .card-destaque {
+      flex-direction: column;
+      align-items: flex-start;
+      padding-bottom: 60px;
+    }
+  
+    .botao-vermais {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+    }
+  }
+  
+  

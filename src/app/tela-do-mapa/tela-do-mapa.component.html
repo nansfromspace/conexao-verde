@@ -1,0 +1,21 @@
+<app-top-nav></app-top-nav>
+
+<div class="mapa-container">
+  <div id="map"></div>
+</div>
+
+<div class="bloco-conteudo">
+  <p class="titulo-lista">Vamos encontrar um projeto para você se conectar?</p>
+
+  <div class="carrossel-container">
+    <div *ngFor="let projeto of projetos" class="card-projeto">
+      <p class="nome-projeto">{{ projeto.nome }}</p>
+      <p>{{ projeto.endereco }}</p>
+      <p>{{ projeto.horario }}</p>
+      <p>{{ projeto.nomeOng }}</p>
+      <button class="botao-vermais">ver mais</button>
+    </div>
+  </div>
+</div>
+
+<app-bottom-nav></app-bottom-nav>

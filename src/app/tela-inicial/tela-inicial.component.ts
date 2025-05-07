@@ -4,6 +4,7 @@ import { TopNavComponent } from '../shared/top-nav/top-nav.component';
 import { BottomNavComponent } from '../shared/bottom-nav/bottom-nav.component';
 import { Auth } from '@angular/fire/auth';
 import { Firestore, doc, getDoc } from '@angular/fire/firestore';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-tela-inicial',
@@ -13,7 +14,8 @@ import { Firestore, doc, getDoc } from '@angular/fire/firestore';
   imports: [
     FontAwesomeModule,
     TopNavComponent,
-    BottomNavComponent
+    BottomNavComponent,
+    RouterModule
   ]
 })
 export class TelaInicialComponent implements OnInit {
@@ -33,7 +35,6 @@ export class TelaInicialComponent implements OnInit {
       if (docSnap.exists()) {
         const dados = docSnap.data();
         this.nomeUsuario = dados['apelido'] || dados['nome'] || '🌱';
-
       } else {
         console.log('Documento do usuário não encontrado.');
       }

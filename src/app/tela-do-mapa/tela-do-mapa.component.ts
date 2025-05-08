@@ -29,7 +29,6 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
 
     setTimeout(() => this.map.invalidateSize(), 0);
 
-    // ✅ Buscar dados após inicializar o mapa
     await this.carregarProjetosDoFirebase();
   }
 

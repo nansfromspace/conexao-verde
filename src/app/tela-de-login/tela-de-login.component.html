@@ -1,0 +1,23 @@
+<div class="login-container">
+    <h1 class="titulo-faca">Faça seu login</h1>
+
+    <img src="assets/images/imagem-login.svg" alt="Ilustração de plantio" class="imagem-login" />
+  
+    <h2 class="titulo-login">Conexão Verde</h2>
+  
+    <label for="email">Email</label>
+    <input id="email" type="email" [(ngModel)]="email" placeholder="Digite seu email" />
+  
+    <label for="senha">Senha</label>
+    <input id="senha" type="password" [(ngModel)]="senha" placeholder="Digite sua senha" />
+  
+    <button class="botao-login" (click)="fazerLogin()">
+      Entrar     <i class="fa-solid fa-arrow-right"></i>
+    </button>
+
+    <p class="texto-registro">
+      Ops! Não possui uma conta?
+      <a routerLink="/registro" class="link-registro">Registre-se!</a>
+    </p>
+  </div>
+  

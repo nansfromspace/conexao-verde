@@ -1,6 +1,6 @@
 .mapa-container {
     width: 100%;
-    height: 65vh;
+    height: 60vh;
     position: relative;
     z-index: 1;
   }
@@ -16,6 +16,8 @@
     font-size: 20px;
     padding: 0 16px;
     margin-bottom: 16px;
+    color: #174537;
+
   }
   
   .carrossel-container {

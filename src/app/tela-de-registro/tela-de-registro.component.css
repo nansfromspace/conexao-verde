@@ -49,19 +49,6 @@
     box-sizing: border-box;
   }
   
-  /* Texto do link de login */
-  .texto-login {
-    font-size: 13px;
-    text-align: right;
-    margin-top: -6px;
-    margin-bottom: 12px;
-  }
-  
-  .texto-login a {
-    color: #4c7900;
-    text-decoration: none;
-    font-weight: 500;
-  }
   
   /* Botão registrar */
   .botao-registrar {
@@ -78,14 +65,14 @@
   }
   
   /* Esqueceu senha */
-  .texto-esqueci {
+  .texto-login {
     font-size: 14px;
     text-align: center;
-    color: #444;
+    color: #000;
     margin-top: -2px;
   }
   
-  .texto-esqueci a {
+  .texto-login a {
     color: #4c7900;
     text-decoration: none;
     font-weight: 500;

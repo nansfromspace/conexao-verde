@@ -1,0 +1,80 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 24px;
+    gap: 16px;
+  }
+  
+  .imagem-login {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: -30px;
+  }
+
+  .titulo-faca {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 0;
+    text-align: center;
+    color: #000;
+  }
+  
+  
+  .titulo-login {
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #000;
+  }
+  
+  
+  input:focus {
+    outline: none;
+    border: 2px solid #d4f141;
+    box-shadow: 0 0 4px rgba(23, 69, 55, 0.3);
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 18px;
+  }
+  
+  label {
+    align-self: flex-start;
+    font-size: 18px;
+    color: #000;
+  }
+  
+  /* Esqueceu senha */
+  .texto-registro {
+    font-size: 14px;
+    text-align: center;
+    color: #000;
+    margin-top: -2px;
+  }
+  
+  .texto-registro a {
+    color: #4c7900;
+    text-decoration: none;
+    font-weight: 500;
+  }  
+  .botao-login {
+    background-color: #d4f141;
+    color: #000000;
+    font-weight: bold;
+    border: none;
+    padding: 14px;
+    border-radius: 999px;
+    font-size: 18px;
+    cursor: pointer;
+    width: 100%;
+    margin: 10px 0;
+  }
+  

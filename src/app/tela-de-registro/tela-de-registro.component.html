@@ -21,14 +21,15 @@
     <p *ngIf="erroCampos" class="erro">{{ erroCampos }}</p>
     <p *ngIf="erroEmail" class="erro">{{ erroEmail }}</p>
     <p *ngIf="erroSenha" class="erro">{{ erroSenha }}</p>
-
-
-    <p class="texto-login">Já tem uma conta? <a href="#">Faça o login!</a></p>
+      
 
     <!-- botão que chama a função -->
     <button class="botao-registrar" (click)="registrar()">Registrar</button>
     <p *ngIf="mensagemSucesso" class="sucesso">{{ mensagemSucesso }}</p>
 
 
-    <p class="texto-esqueci">Esqueceu a senha? <a href="#">Clique aqui!</a></p>
+    <p class="texto-login">
+        Já tem uma conta?
+        <a routerLink="/login">Faça o login!</a>
+      </p>
 </div>

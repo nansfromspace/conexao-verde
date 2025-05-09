@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-tela-de-registro',
   standalone: true,
   templateUrl: './tela-de-registro.component.html',
   styleUrls: ['./tela-de-registro.component.css'],
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, RouterModule]
 })
 export class TelaDeRegistroComponent {
   nome = '';

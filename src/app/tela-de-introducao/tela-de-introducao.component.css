@@ -1,0 +1,50 @@
+.tela-introducao-container {
+  background-color: #335400;
+  color: white;
+  min-height: 100vh;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.tela-introducao-titulo {
+  font-size: 30px;
+  margin-bottom: 70px;
+}
+
+.tela-introducao-texto {
+  font-size: 26px;
+  margin-bottom: 32px;
+  color: #EDFFCC;
+  max-width: 90%;
+}
+
+.tela-introducao-logo {
+  max-width: 100%;
+  width: 100%;
+  max-width: 370px;
+  height: auto;
+  margin: 0 auto 32px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.tela-introducao-botao {
+  background-color: #d4f141;
+  color: #3B5704;
+  font-weight: bold;
+  border: none;
+  padding: 14px;
+  border-radius: 999px;
+  font-size: 22px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+  margin: 10px auto 0;
+  box-sizing: border-box;
+}

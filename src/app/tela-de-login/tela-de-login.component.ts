@@ -24,7 +24,7 @@ export class TelaDeLoginComponent {
   this.mensagemErro = '';
 
   if (!this.email || !this.senha) {
-    this.mensagemErro = 'Preencha todos os campos.';
+    this.mensagemErro = 'Preencha todos os campos, por favor.';
     return;
   }
 

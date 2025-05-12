@@ -15,6 +15,11 @@
       Entrar     <i class="fa-solid fa-arrow-right"></i>
     </button>
 
+    <div *ngIf="mensagemErro" class="mensagem-erro">
+     {{ mensagemErro }}
+    </div>
+
+
     <p class="texto-registro">
       Ops! Não possui uma conta?
       <a routerLink="/registro" class="link-registro">Registre-se!</a>

@@ -17,6 +17,11 @@
   margin-bottom: 70px;
 }
 
+.icone-verde {
+  color: #6AB301;
+}
+
+
 .tela-introducao-texto {
   font-size: 26px;
   margin-bottom: 32px;
@@ -27,7 +32,7 @@
 .tela-introducao-logo {
   max-width: 100%;
   width: 100%;
-  max-width: 370px;
+  max-width: 320px;
   height: auto;
   margin: 0 auto 32px;
   padding: 20px;
@@ -39,7 +44,7 @@
   color: #3B5704;
   font-weight: bold;
   border: none;
-  padding: 14px;
+  padding: 20px;
   border-radius: 999px;
   font-size: 22px;
   cursor: pointer;

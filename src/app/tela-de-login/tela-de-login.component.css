@@ -76,4 +76,12 @@
     width: 100%;
     margin: 10px 0;
   }
+
+  .mensagem-erro {
+  color: red;
+  font-size: 14px;
+  margin-top: 12px;
+  text-align: center;
+}
+
   

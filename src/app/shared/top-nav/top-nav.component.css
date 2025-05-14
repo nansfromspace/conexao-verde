@@ -43,3 +43,7 @@
     white-space: nowrap;
   }
   
+  :host {
+  z-index: 1000;
+  position: relative;
+}

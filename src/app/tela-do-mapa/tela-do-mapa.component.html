@@ -4,8 +4,55 @@
   <div id="map"></div>
 </div>
 
+<!-- Overlay escuro do filtro -->
+<div class="overlay-filtro" *ngIf="filtroAberto" (click)="fecharFiltro()"></div>
+
+<!-- Bottom sheet do filtro -->
+<div class="filtro-bottom-sheet" *ngIf="filtroAberto">
+  <div class="filtro-header">
+    <h2>Filtro</h2>
+    <button class="fechar" (click)="fecharFiltro()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <div class="filtro-box">
+    <h3>Escolha um tipo de projeto</h3>
+    <label><input type="checkbox" /> Plantar</label>
+    <label><input type="checkbox" /> Limpeza de espaços</label>
+    <label><input type="checkbox" /> Outros</label>
+  </div>
+
+  <div class="filtro-box">
+    <h3>Localização do projeto</h3>
+    <label><input type="radio" name="local" /> Perto de mim</label>
+    <label>
+      <input type="radio" name="local" (click)="usarEndereco = true" />
+      Digite manualmente
+    </label>
+
+    <input
+      *ngIf="usarEndereco"
+      type="text"
+      class="input-endereco"
+      placeholder="Digite seu endereço"
+    />
+  </div>
+
+  <button class="botao-filtrar" (click)="aplicarFiltro()">Filtrar</button>
+</div>
+
+<!-- Bloco principal de conteúdo -->
 <div class="bloco-conteudo">
-  <p class="titulo-lista"><i class="fa-solid fa-seedling"></i>  Vamos encontrar um projeto para você se conectar?</p>
+  <div class="filtro-wrapper">
+    <button class="botao-filtro-lista" (click)="abrirFiltro()">Filtros</button>
+  </div>
+
+<p class="titulo-lista">
+  <i class="fa-solid fa-seedling icone-verde"></i>
+  Vamos encontrar um projeto pra você se conectar?
+</p>
+
 
   <div class="carrossel-container">
     <div *ngFor="let projeto of projetos" class="card-projeto">
@@ -13,8 +60,36 @@
       <p>{{ projeto.endereco }}</p>
       <p>{{ projeto.horario }}</p>
       <p>{{ projeto.nomeOng }}</p>
-      <button class="botao-vermais">ver mais</button>
+      <button class="botao-vermais" (click)="abrirDetalhes(projeto)">ver mais</button>
     </div>
+  </div>
+</div>
+
+<!-- Overlay escuro do modal de detalhes -->
+<div class="overlay-filtro" *ngIf="detalhesAbertos" (click)="fecharDetalhes()"></div>
+
+<!-- Bottom sheet de detalhes do projeto -->
+<div class="detalhes-bottom-sheet" *ngIf="detalhesAbertos">
+  <div class="detalhes-header">
+    <button class="fechar" (click)="fecharDetalhes()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <div class="detalhes-conteudo">
+    <h2 class="titulo-modal">{{ projetoSelecionado?.nome }}</h2>
+
+    <p><i class="fa-solid fa-location-dot"></i> {{ projetoSelecionado?.endereco }}</p>
+    <p><i class="fa-solid fa-clock"></i> {{ projetoSelecionado?.horario }}</p>
+    <p><i class="fa-solid fa-leaf"></i> {{ projetoSelecionado?.nomeOng }}</p>
+
+    <div class="like-container">
+      <i class="fa-regular fa-heart"></i>
+    </div>
+
+    <button class="botao-contato" (click)="copiarContato()">
+      Copiar contato da ONG
+    </button>
   </div>
 </div>
 

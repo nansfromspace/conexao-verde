@@ -5,6 +5,20 @@ import * as L from 'leaflet';
 import { TopNavComponent } from '../shared/top-nav/top-nav.component';
 import { BottomNavComponent } from '../shared/bottom-nav/bottom-nav.component';
 
+// função para calcular distância entre duas coordenadas (Haversine)
+function calcularDistanciaKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) *
+    Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
 @Component({
   selector: 'app-tela-do-mapa',
   standalone: true,
@@ -15,7 +29,18 @@ import { BottomNavComponent } from '../shared/bottom-nav/bottom-nav.component';
 export class TelaDoMapaComponent implements OnInit, AfterViewInit {
   private firestore: Firestore = inject(Firestore);
   projetos: any[] = [];
+  todosProjetos: any[] = [];
   private map!: L.Map;
+
+  filtroAberto = false;
+  usarEndereco = false;
+  filtroTiposSelecionados: string[] = [];
+  filtroLocal: 'perto' | 'manual' | null = null;
+  enderecoManual: string = '';
+
+  // Variáveis do modal de detalhes
+  detalhesAbertos = false;
+  projetoSelecionado: any = null;
 
   ngOnInit() {}
 
@@ -25,27 +50,19 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
     }).addTo(this.map);
-    
 
     setTimeout(() => this.map.invalidateSize(), 0);
-
     await this.carregarProjetosDoFirebase();
   }
 
   async carregarProjetosDoFirebase() {
-    const customIcon = L.icon({
-      iconUrl: 'assets/images/locationpin.png',
-      iconSize: [32, 32],
-      iconAnchor: [16, 32],
-      popupAnchor: [0, -32]
-    });
-
     const ongsRef = collection(this.firestore, 'ongs');
     const snapshot = await getDocs(ongsRef);
 
     snapshot.forEach((docSnap) => {
       const ongData = docSnap.data();
       const nomeOng = ongData['nome'];
+      const contatoOng = ongData['contato']; 
       const atividades = ongData['atividades'];
 
       atividades.forEach((atividade: any) => {
@@ -54,19 +71,194 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
           endereco: atividade.local,
           horario: atividade.horario,
           nomeOng: nomeOng,
-          coordenadas: atividade.coordenadas
+          contatoOng: contatoOng,
+          coordenadas: atividade.coordenadas,
+          tipo: atividade.tipo?.toLowerCase() || 'outros'
         };
 
-        this.projetos.push(projeto);
-        console.log('Atividade carregada:', projeto);
-
-        const geo = atividade.coordenadas;
-        if (geo && geo.latitude !== undefined && geo.longitude !== undefined) {
-          L.marker([geo.latitude, geo.longitude], { icon: customIcon })
-            .addTo(this.map)
-            .bindPopup(`<strong>${atividade.nome}</strong><br>${atividade.local}`);
-        }
+        console.log('Projeto carregado:', projeto);
+        this.todosProjetos.push(projeto);
       });
     });
+
+    console.log('Todos os projetos carregados:', this.todosProjetos);
+    this.filtrarProjetos();
+  }
+
+  redesenharMarcadores() {
+    this.map.eachLayer((layer: any) => {
+      if (layer instanceof L.Marker) {
+        this.map.removeLayer(layer);
+      }
+    });
+
+    const customIcon = L.icon({
+      iconUrl: 'assets/images/locationpin.png',
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32]
+    });
+
+    this.projetos.forEach(projeto => {
+      const geo = projeto.coordenadas;
+      if (!geo || geo.latitude == null || geo.longitude == null) return;
+
+const marker = L.marker([geo.latitude, geo.longitude], { icon: customIcon })
+  .addTo(this.map)
+  .on('click', () => this.abrirDetalhes(projeto));
+
+    });
+  }
+
+  filtrarProjetos() {
+    let filtrados = this.todosProjetos;
+
+    console.log('Tipos selecionados no filtro:', this.filtroTiposSelecionados);
+    console.log('Filtro local:', this.filtroLocal, '| Endereço manual:', this.enderecoManual);
+
+    if (this.filtroTiposSelecionados.length > 0) {
+      filtrados = filtrados.filter(projeto =>
+        this.filtroTiposSelecionados.includes(projeto.tipo)
+      );
+    }
+
+    console.log('Projetos após filtro de tipo:', filtrados);
+
+    if (this.filtroLocal === 'perto') {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const latUser = position.coords.latitude;
+            const lonUser = position.coords.longitude;
+
+            this.projetos = filtrados.filter(projeto => {
+              const coords = projeto.coordenadas;
+              if (!coords || coords.latitude == null || coords.longitude == null) return false;
+              const distancia = calcularDistanciaKm(latUser, lonUser, coords.latitude, coords.longitude);
+              return distancia <= 5;
+            });
+
+            this.redesenharMarcadores();
+
+            if (this.projetos.length > 0) {
+              const primeiro = this.projetos[0].coordenadas;
+              if (primeiro?.latitude && primeiro?.longitude) {
+                this.map.setView([primeiro.latitude, primeiro.longitude], 14);
+              }
+            }
+          },
+          () => {
+            alert('Não foi possível obter sua localização.');
+            this.projetos = filtrados;
+            this.redesenharMarcadores();
+          }
+        );
+        return;
+      } else {
+        alert('Geolocalização não suportada neste navegador.');
+      }
+    }
+
+    if (this.filtroLocal === 'manual' && this.enderecoManual.trim() !== '') {
+      const query = encodeURIComponent(this.enderecoManual.trim());
+      const url = `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`;
+
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          if (!data || data.length === 0) {
+            alert('Endereço não encontrado.');
+            this.projetos = [];
+            this.redesenharMarcadores();
+            return;
+          }
+
+          const latUser = parseFloat(data[0].lat);
+          const lonUser = parseFloat(data[0].lon);
+
+          this.projetos = filtrados.filter(projeto => {
+            const coords = projeto.coordenadas;
+            if (!coords || coords.latitude == null || coords.longitude == null) return false;
+            const distancia = calcularDistanciaKm(latUser, lonUser, coords.latitude, coords.longitude);
+            return distancia <= 5;
+          });
+
+          this.redesenharMarcadores();
+
+          if (this.projetos.length > 0) {
+            const primeiro = this.projetos[0].coordenadas;
+            if (primeiro?.latitude && primeiro?.longitude) {
+              this.map.setView([primeiro.latitude, primeiro.longitude], 14);
+            }
+          }
+        })
+        .catch(() => {
+          alert('Erro ao buscar o endereço.');
+          this.projetos = filtrados;
+          this.redesenharMarcadores();
+        });
+
+      return;
+    }
+
+    this.projetos = filtrados;
+    this.redesenharMarcadores();
+
+    if (this.projetos.length > 0) {
+      const primeiro = this.projetos[0].coordenadas;
+      if (primeiro?.latitude && primeiro?.longitude) {
+        this.map.setView([primeiro.latitude, primeiro.longitude], 14);
+      }
+    }
+  }
+
+  abrirFiltro() {
+    this.filtroAberto = true;
+    this.usarEndereco = false;
+  }
+
+  fecharFiltro() {
+    this.filtroAberto = false;
+  }
+
+  aplicarFiltro() {
+    this.filtroTiposSelecionados = [];
+
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    checkboxes.forEach((el: any) => {
+      const texto = el.nextSibling?.textContent?.trim().toLowerCase();
+      if (texto) this.filtroTiposSelecionados.push(texto);
+    });
+
+    const radio = document.querySelector('input[name="local"]:checked') as HTMLInputElement;
+    this.filtroLocal = radio?.nextSibling?.textContent?.includes('manual') ? 'manual' : 'perto';
+
+    this.filtrarProjetos();
+    this.fecharFiltro();
+  }
+
+  //Modal de detalhes
+abrirDetalhes(projeto: any) {
+  console.log('abrirDetalhes() foi chamado!');
+  console.log('Projeto recebido:', projeto);
+  this.projetoSelecionado = projeto;
+  this.detalhesAbertos = true;
+  console.log('detalhesAbertos está agora:', this.detalhesAbertos);
+}
+
+
+  fecharDetalhes() {
+    this.detalhesAbertos = false;
+    this.projetoSelecionado = null;
+  }
+
+  copiarContato() {
+    if (this.projetoSelecionado?.contatoOng) {
+      navigator.clipboard.writeText(this.projetoSelecionado.contatoOng)
+        .then(() => alert('Contato da ONG copiado com sucesso!'))
+        .catch(() => alert('Erro ao copiar o contato.'));
+    } else {
+      alert('Contato da ONG não disponível.');
+    }
   }
 }

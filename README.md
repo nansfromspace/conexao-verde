@@ -22,7 +22,7 @@
 
 - Sistema de "curtida" (like) por projeto — **em breve**
 - Integração com autenticação (Google) — **em breve**  
-- Salvamento de curtidas por usuário no Firebase — **em desenvolvimento**
+- Salvamento de curtidas por usuário no Firebase — **em breve**  
 
 ---
 

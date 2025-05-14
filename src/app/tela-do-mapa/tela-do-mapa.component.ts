@@ -5,7 +5,6 @@ import * as L from 'leaflet';
 import { TopNavComponent } from '../shared/top-nav/top-nav.component';
 import { BottomNavComponent } from '../shared/bottom-nav/bottom-nav.component';
 
-// função para calcular distância entre duas coordenadas (Haversine)
 function calcularDistanciaKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
   const R = 6371;
   const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -38,7 +37,6 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
   filtroLocal: 'perto' | 'manual' | null = null;
   enderecoManual: string = '';
 
-  // Variáveis do modal de detalhes
   detalhesAbertos = false;
   projetoSelecionado: any = null;
 
@@ -46,11 +44,9 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
 
   async ngAfterViewInit() {
     this.map = L.map('map').setView([-23.5505, -46.6333], 12);
-
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
     }).addTo(this.map);
-
     setTimeout(() => this.map.invalidateSize(), 0);
     await this.carregarProjetosDoFirebase();
   }
@@ -62,7 +58,7 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
     snapshot.forEach((docSnap) => {
       const ongData = docSnap.data();
       const nomeOng = ongData['nome'];
-      const contatoOng = ongData['contato']; 
+      const contatoOng = ongData['contato'];
       const atividades = ongData['atividades'];
 
       atividades.forEach((atividade: any) => {
@@ -103,10 +99,9 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
       const geo = projeto.coordenadas;
       if (!geo || geo.latitude == null || geo.longitude == null) return;
 
-const marker = L.marker([geo.latitude, geo.longitude], { icon: customIcon })
-  .addTo(this.map)
-  .on('click', () => this.abrirDetalhes(projeto));
-
+      L.marker([geo.latitude, geo.longitude], { icon: customIcon })
+        .addTo(this.map)
+        .on('click', () => this.abrirDetalhes(projeto));
     });
   }
 
@@ -121,8 +116,6 @@ const marker = L.marker([geo.latitude, geo.longitude], { icon: customIcon })
         this.filtroTiposSelecionados.includes(projeto.tipo)
       );
     }
-
-    console.log('Projetos após filtro de tipo:', filtrados);
 
     if (this.filtroLocal === 'perto') {
       if (navigator.geolocation) {
@@ -226,26 +219,21 @@ const marker = L.marker([geo.latitude, geo.longitude], { icon: customIcon })
 
     const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
     checkboxes.forEach((el: any) => {
-      const texto = el.nextSibling?.textContent?.trim().toLowerCase();
+      const texto = el.parentElement?.textContent?.trim().toLowerCase();
       if (texto) this.filtroTiposSelecionados.push(texto);
     });
 
     const radio = document.querySelector('input[name="local"]:checked') as HTMLInputElement;
-    this.filtroLocal = radio?.nextSibling?.textContent?.includes('manual') ? 'manual' : 'perto';
+    this.filtroLocal = radio?.value === 'manual' ? 'manual' : (radio?.value === 'perto' ? 'perto' : null);
 
     this.filtrarProjetos();
     this.fecharFiltro();
   }
 
-  //Modal de detalhes
-abrirDetalhes(projeto: any) {
-  console.log('abrirDetalhes() foi chamado!');
-  console.log('Projeto recebido:', projeto);
-  this.projetoSelecionado = projeto;
-  this.detalhesAbertos = true;
-  console.log('detalhesAbertos está agora:', this.detalhesAbertos);
-}
-
+  abrirDetalhes(projeto: any) {
+    this.projetoSelecionado = projeto;
+    this.detalhesAbertos = true;
+  }
 
   fecharDetalhes() {
     this.detalhesAbertos = false;

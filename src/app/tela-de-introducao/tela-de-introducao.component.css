@@ -16,6 +16,10 @@
   font-size: 30px;
   margin-bottom: 70px;
 }
+.icone-verde {
+  color: #6AB301;
+}
+
 
 .tela-introducao-texto {
   font-size: 26px;
@@ -27,7 +31,7 @@
 .tela-introducao-logo {
   max-width: 100%;
   width: 100%;
-  max-width: 370px;
+  max-width: 335px;
   height: auto;
   margin: 0 auto 32px;
   padding: 20px;

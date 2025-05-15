@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Firestore, collection, getDocs } from '@angular/fire/firestore';
 import * as L from 'leaflet';
 import { TopNavComponent } from '../shared/top-nav/top-nav.component';
@@ -21,7 +22,7 @@ function calcularDistanciaKm(lat1: number, lon1: number, lat2: number, lon2: num
 @Component({
   selector: 'app-tela-do-mapa',
   standalone: true,
-  imports: [CommonModule, TopNavComponent, BottomNavComponent],
+  imports: [CommonModule, FormsModule, TopNavComponent, BottomNavComponent],
   templateUrl: './tela-do-mapa.component.html',
   styleUrls: ['./tela-do-mapa.component.css']
 })
@@ -36,6 +37,12 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
   filtroTiposSelecionados: string[] = [];
   filtroLocal: 'perto' | 'manual' | null = null;
   enderecoManual: string = '';
+
+  tiposSelecionados = {
+    plantar: false,
+    limpeza: false,
+    outros: false
+  };
 
   detalhesAbertos = false;
   projetoSelecionado: any = null;
@@ -72,12 +79,10 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
           tipo: atividade.tipo?.toLowerCase() || 'outros'
         };
 
-        console.log('Projeto carregado:', projeto);
         this.todosProjetos.push(projeto);
       });
     });
 
-    console.log('Todos os projetos carregados:', this.todosProjetos);
     this.filtrarProjetos();
   }
 
@@ -108,8 +113,10 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
   filtrarProjetos() {
     let filtrados = this.todosProjetos;
 
-    console.log('Tipos selecionados no filtro:', this.filtroTiposSelecionados);
-    console.log('Filtro local:', this.filtroLocal, '| Endereço manual:', this.enderecoManual);
+    this.filtroTiposSelecionados = [];
+    if (this.tiposSelecionados.plantar) this.filtroTiposSelecionados.push('plantar');
+    if (this.tiposSelecionados.limpeza) this.filtroTiposSelecionados.push('limpeza de espaços');
+    if (this.tiposSelecionados.outros) this.filtroTiposSelecionados.push('outros');
 
     if (this.filtroTiposSelecionados.length > 0) {
       filtrados = filtrados.filter(projeto =>
@@ -140,8 +147,8 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
               }
             }
           },
-          () => {
-            alert('Não foi possível obter sua localização.');
+          (error) => {
+            alert('Permissão negada para obter localização.');
             this.projetos = filtrados;
             this.redesenharMarcadores();
           }
@@ -159,6 +166,8 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
       fetch(url)
         .then(res => res.json())
         .then(data => {
+          console.log('🔍 Resultado da geocodificação:', data);
+
           if (!data || data.length === 0) {
             alert('Endereço não encontrado.');
             this.projetos = [];
@@ -169,6 +178,16 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
           const latUser = parseFloat(data[0].lat);
           const lonUser = parseFloat(data[0].lon);
 
+          const customIcon = L.icon({
+            iconUrl: 'assets/images/locationpin.png',
+            iconSize: [32, 32],
+            iconAnchor: [16, 32],
+            popupAnchor: [0, -32]
+          });
+
+          L.marker([latUser, lonUser], { icon: customIcon }).addTo(this.map);
+          this.map.setView([latUser, lonUser], 14);
+
           this.projetos = filtrados.filter(projeto => {
             const coords = projeto.coordenadas;
             if (!coords || coords.latitude == null || coords.longitude == null) return false;
@@ -177,13 +196,6 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
           });
 
           this.redesenharMarcadores();
-
-          if (this.projetos.length > 0) {
-            const primeiro = this.projetos[0].coordenadas;
-            if (primeiro?.latitude && primeiro?.longitude) {
-              this.map.setView([primeiro.latitude, primeiro.longitude], 14);
-            }
-          }
         })
         .catch(() => {
           alert('Erro ao buscar o endereço.');
@@ -215,19 +227,17 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
   }
 
   aplicarFiltro() {
-    this.filtroTiposSelecionados = [];
-
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-    checkboxes.forEach((el: any) => {
-      const texto = el.parentElement?.textContent?.trim().toLowerCase();
-      if (texto) this.filtroTiposSelecionados.push(texto);
-    });
-
-    const radio = document.querySelector('input[name="local"]:checked') as HTMLInputElement;
-    this.filtroLocal = radio?.value === 'manual' ? 'manual' : (radio?.value === 'perto' ? 'perto' : null);
-
     this.filtrarProjetos();
     this.fecharFiltro();
+  }
+
+  limparFiltro() {
+    this.tiposSelecionados = { plantar: false, limpeza: false, outros: false };
+    this.filtroLocal = null;
+    this.enderecoManual = '';
+    this.projetos = [...this.todosProjetos];
+    this.redesenharMarcadores();
+    this.map.setView([-23.5505, -46.6333], 12);
   }
 
   abrirDetalhes(projeto: any) {

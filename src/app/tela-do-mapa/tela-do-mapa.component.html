@@ -16,18 +16,46 @@
     </button>
   </div>
 
+  <!-- ✅ TIPOS DE PROJETO -->
   <div class="filtro-box">
     <h3>Escolha um tipo de projeto</h3>
-    <label><input type="checkbox" /> Plantar</label>
-    <label><input type="checkbox" /> Limpeza de espaços</label>
-    <label><input type="checkbox" /> Outros</label>
+    <label>
+      <input type="checkbox" [(ngModel)]="tiposSelecionados.plantar" />
+      Plantar
+    </label>
+    <label>
+      <input type="checkbox" [(ngModel)]="tiposSelecionados.limpeza" />
+      Limpeza de espaços
+    </label>
+    <label>
+      <input type="checkbox" [(ngModel)]="tiposSelecionados.outros" />
+      Outros
+    </label>
   </div>
 
+  <!-- ✅ LOCALIZAÇÃO -->
   <div class="filtro-box">
     <h3>Localização do projeto</h3>
-    <label><input type="radio" name="local" /> Perto de mim</label>
+
     <label>
-      <input type="radio" name="local" (click)="usarEndereco = true" />
+      <input
+        type="radio"
+        name="local"
+        [(ngModel)]="filtroLocal"
+        [value]="'perto'"
+        (change)="usarEndereco = false"
+      />
+      Perto de mim
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="local"
+        [(ngModel)]="filtroLocal"
+        [value]="'manual'"
+        (change)="usarEndereco = true"
+      />
       Digite manualmente
     </label>
 
@@ -36,23 +64,27 @@
       type="text"
       class="input-endereco"
       placeholder="Digite seu endereço"
+      [(ngModel)]="enderecoManual"
     />
   </div>
 
-  <button class="botao-filtrar" (click)="aplicarFiltro()">Filtrar</button>
+  <!-- ✅ BOTÕES DE AÇÃO -->
+  <div class="botoes-filtros">
+    <button class="botao-filtrar" (click)="aplicarFiltro()">Filtrar</button>
+  <button class="botao-limpar" (click)="limparFiltro()">Limpar filtros</button>
+  </div>
 </div>
 
-<!-- Bloco principal de conteúdo -->
+<!-- BLOCO PRINCIPAL DE CONTEÚDO -->
 <div class="bloco-conteudo">
   <div class="filtro-wrapper">
     <button class="botao-filtro-lista" (click)="abrirFiltro()">Filtros</button>
   </div>
 
-<p class="titulo-lista">
-  <i class="fa-solid fa-seedling icone-verde"></i>
-  Vamos encontrar um projeto pra você se conectar?
-</p>
-
+  <p class="titulo-lista">
+    <i class="fa-solid fa-seedling icone-verde"></i>
+    Vamos encontrar um projeto pra você se conectar?
+  </p>
 
   <div class="carrossel-container">
     <div *ngFor="let projeto of projetos" class="card-projeto">
@@ -65,10 +97,9 @@
   </div>
 </div>
 
-<!-- Overlay escuro do modal de detalhes -->
+<!-- MODAL DE DETALHES -->
 <div class="overlay-filtro" *ngIf="detalhesAbertos" (click)="fecharDetalhes()"></div>
 
-<!-- Bottom sheet de detalhes do projeto -->
 <div class="detalhes-bottom-sheet" *ngIf="detalhesAbertos">
   <div class="detalhes-header">
     <button class="fechar" (click)="fecharDetalhes()">

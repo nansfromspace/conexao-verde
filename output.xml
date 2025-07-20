@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3.2 (Python 3.13.0 on win32)" generated="2025-07-17T21:29:24.823550" rpa="false" schemaversion="5">
+<suite id="s1" name="Login Test" source="c:\Users\natha\Documents\conexao-verde\tests\automacao\tests\login_test.robot">
+<kw name="Open Browser To Login" type="SETUP">
+<msg time="2025-07-17T21:29:25.213005" level="FAIL">No keyword with name 'Open Browser To Login' found. Did you try using keyword 'SeleniumLibrary.Open Browser' and forgot to use enough whitespace between keyword and arguments?</msg>
+<status status="FAIL" start="2025-07-17T21:29:25.212714" elapsed="0.001671">No keyword with name 'Open Browser To Login' found. Did you try using keyword 'SeleniumLibrary.Open Browser' and forgot to use enough whitespace between keyword and arguments?</status>
+</kw>
+<test id="s1-t1" name="Login Válido" line="11">
+<doc>Realiza login e verifica saudação</doc>
+<status status="FAIL" start="2025-07-17T21:29:25.214818" elapsed="0.000915">Parent suite setup failed:
+No keyword with name 'Open Browser To Login' found. Did you try using keyword 'SeleniumLibrary.Open Browser' and forgot to use enough whitespace between keyword and arguments?</status>
+</test>
+<kw name="Close All Browsers" owner="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" start="2025-07-17T21:29:25.217901" elapsed="0.000494"/>
+</kw>
+<status status="FAIL" start="2025-07-17T21:29:24.879428" elapsed="0.339178">Suite setup failed:
+No keyword with name 'Open Browser To Login' found. Did you try using keyword 'SeleniumLibrary.Open Browser' and forgot to use enough whitespace between keyword and arguments?</status>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Login Test" id="s1" pass="0" fail="1" skip="0">Login Test</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2025-07-17T21:29:25.202392" level="ERROR">Error in file 'c:\Users\natha\Documents\conexao-verde\tests\automacao\tests\login_test.robot' on line 4: Resource file '..\..\src\resources\variables\GlobalVars.robot' does not exist.</msg>
+<msg time="2025-07-17T21:29:25.205560" level="ERROR">Error in file 'c:\Users\natha\Documents\conexao-verde\tests\automacao\tests\login_test.robot' on line 5: Resource file '..\..\src\resources\keywords\webKeywords.robot' does not exist.</msg>
+</errors>
+</robot>

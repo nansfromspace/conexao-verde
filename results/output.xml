@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3.2 (Python 3.13.0 on win32)" generated="2025-07-19T00:24:06.617710" rpa="false" schemaversion="5">
+<suite id="s1" name="Intro Componentes Test" source="C:\Users\natha\Documents\conexao-verde\tests\automacao\tests\componentes\intro_componentes_test.robot">
+<kw name="Abrir Navegador Na Página De Introdução" owner="introSteps" type="SETUP">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-07-19T00:24:06.886370" level="INFO">Opening browser 'chrome' to base url 'http://localhost:4200'.</msg>
+<arg>${URL}</arg>
+<arg>chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-07-19T00:24:06.886068" elapsed="1.689479"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2025-07-19T00:24:08.575955" elapsed="0.332745"/>
+</kw>
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2025-07-19T00:24:08.912023" level="INFO">Opening url 'http://localhost:4200'</msg>
+<arg>${URL}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2025-07-19T00:24:08.911221" elapsed="0.198866"/>
+</kw>
+<doc>Abre o navegador e acessa a URL inicial do sistema.</doc>
+<status status="PASS" start="2025-07-19T00:24:06.885348" elapsed="2.225019"/>
+</kw>
+<test id="s1-t1" name="Verificar componentes da tela de introdução" line="11">
+<kw name="Verificar Titulo E Ícone Da Introdução" owner="introSteps">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${botao_intro}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-07-19T00:24:09.112647" elapsed="3.090576"/>
+</kw>
+<kw name="Element Should Be Visible" owner="SeleniumLibrary">
+<msg time="2025-07-19T00:24:12.224879" level="INFO">Element 'id=tela-introducao-titulo' is displayed.</msg>
+<arg>${titulo_intro}</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<status status="PASS" start="2025-07-19T00:24:12.203427" elapsed="0.021543"/>
+</kw>
+<kw name="Get Text" owner="SeleniumLibrary">
+<msg time="2025-07-19T00:24:12.246624" level="INFO">${texto_titulo} = Conexão Verde</msg>
+<var>${texto_titulo}</var>
+<arg>${titulo_intro}</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-07-19T00:24:12.225164" elapsed="0.021506"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${texto_titulo}</arg>
+<arg>Conexão Verde</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-07-19T00:24:12.246846" elapsed="0.000206"/>
+</kw>
+<kw name="Element Should Be Visible" owner="SeleniumLibrary">
+<msg time="2025-07-19T00:24:12.268335" level="INFO">Element 'id=icone-verde' is displayed.</msg>
+<arg>${icone_texto_intro}</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<status status="PASS" start="2025-07-19T00:24:12.247171" elapsed="0.021284"/>
+</kw>
+<doc>Verifica se título e ícone estão visíveis</doc>
+<status status="PASS" start="2025-07-19T00:24:09.111917" elapsed="3.156638"/>
+</kw>
+<kw name="Verificar Texto Da Introdução" owner="introSteps">
+<kw name="Get Text" owner="SeleniumLibrary">
+<msg time="2025-07-19T00:24:12.289014" level="INFO">${texto_introducao} = Do toque ao impacto, da ideia à ação: o verde da sua cidade passa por você.</msg>
+<var>${texto_introducao}</var>
+<arg>${texto_intro}</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-07-19T00:24:12.269202" elapsed="0.019873"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${texto_introducao}</arg>
+<arg>Do toque ao impacto, da ideia à ação: o verde da sua cidade passa por você.</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-07-19T00:24:12.289225" elapsed="0.000212"/>
+</kw>
+<kw name="Element Should Be Visible" owner="SeleniumLibrary">
+<msg time="2025-07-19T00:24:12.305272" level="INFO">Element 'id=tela-introducao-texto' is displayed.</msg>
+<arg>${texto_intro}</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<status status="PASS" start="2025-07-19T00:24:12.289563" elapsed="0.015810"/>
+</kw>
+<doc>Verifica se texto da introdução está correto e visível</doc>
+<status status="PASS" start="2025-07-19T00:24:12.268963" elapsed="0.036547"/>
+</kw>
+<kw name="Verificar Botão De Introdução Está Habilitado" owner="introSteps">
+<kw name="Element Should Be Visible" owner="SeleniumLibrary">
+<msg time="2025-07-19T00:24:12.324766" level="INFO">Element 'id=buttom-introducao' is displayed.</msg>
+<arg>${botao_intro}</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<status status="PASS" start="2025-07-19T00:24:12.306505" elapsed="0.018361"/>
+</kw>
+<kw name="Element Should Be Enabled" owner="SeleniumLibrary">
+<arg>${botao_intro}</arg>
+<doc>Verifies that element identified by ``locator`` is enabled.</doc>
+<status status="PASS" start="2025-07-19T00:24:12.325017" elapsed="0.033559"/>
+</kw>
+<doc>Verifica se o botão da tela de introdução está visível e habilitado.</doc>
+<status status="PASS" start="2025-07-19T00:24:12.305953" elapsed="0.052741"/>
+</kw>
+<kw name="Verificar Navegação Para Tela De Login" owner="introSteps">
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-07-19T00:24:12.359518" level="INFO">Clicking element 'id=buttom-introducao'.</msg>
+<arg>${botao_intro}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-07-19T00:24:12.359332" elapsed="0.131302"/>
+</kw>
+<kw name="Scroll Element Into View" owner="SeleniumLibrary">
+<arg>${campo_email}</arg>
+<doc>Scrolls the element identified by ``locator`` into view.</doc>
+<status status="PASS" start="2025-07-19T00:24:12.490794" elapsed="0.297291"/>
+</kw>
+<doc>Clica no botão de introdução e verifica se o campo de e-mail da tela de login aparece.</doc>
+<status status="PASS" start="2025-07-19T00:24:12.359078" elapsed="0.429450"/>
+</kw>
+<doc>Verifica elementos da tela de introdução</doc>
+<status status="PASS" start="2025-07-19T00:24:09.110562" elapsed="3.679110"/>
+</test>
+<kw name="Fechar Navegador" owner="introSteps" type="TEARDOWN">
+<kw name="Close All Browsers" owner="SeleniumLibrary">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" start="2025-07-19T00:24:12.794155" elapsed="6.410712"/>
+</kw>
+<status status="PASS" start="2025-07-19T00:24:12.793380" elapsed="6.411941"/>
+</kw>
+<status status="PASS" start="2025-07-19T00:24:06.619565" elapsed="12.585976"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Intro Componentes Test" id="s1" pass="1" fail="0" skip="0">Intro Componentes Test</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

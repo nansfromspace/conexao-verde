@@ -1,0 +1,8 @@
+{
+  "robot.language-server.searchPaths": [
+    "resources/keywords",
+    "resources/variables"
+  ]
+}
+
+

@@ -1,0 +1,7 @@
+requirements.txt
+tests/
+results/
+*.robot
+*.xml
+*.log
+selenium-screenshot-*.png

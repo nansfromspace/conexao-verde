@@ -108,6 +108,54 @@ src/
 
 ---
 
+## 🧪 Testes Automatizados
+
+O projeto utiliza **Robot Framework** com **SeleniumLibrary** para testes E2E automatizados.
+
+### Executar os testes
+
+1. **Instale as dependências do Robot Framework**
+```bash
+pip install -r requirements.txt
+```
+
+2. **Certifique-se de que o servidor está rodando**
+```bash
+ng serve
+```
+
+3. **Em outro terminal, execute os testes**
+```bash
+robot -d results tests/automacao/tests/
+```
+
+### Estrutura dos testes
+
+```
+tests/
+├── automacao/
+│   ├── pages/              # Page Objects (elementos das páginas)
+│   ├── resources/          # Recursos compartilhados
+│   ├── steps/              # Steps reutilizáveis
+│   └── tests/
+│       ├── componentes/    # Testes de componentes individuais
+│       └── E2E/            # Testes de fluxo completo
+```
+
+### Cobertura de testes
+
+✅ **Tela de Introdução** - Validação de elementos da interface  
+✅ **Fluxo de Login** - Login com credenciais válidas e navegação  
+
+### Relatórios
+
+Após a execução, os relatórios são gerados na pasta `results/`:
+- `report.html` - Relatório visual detalhado
+- `log.html` - Log completo da execução
+- `output.xml` - Saída em XML para integração
+
+---
+
 ## 📧 Contato
 
 Para dúvidas ou sugestões, entre em contato com as criadoras através do GitHub

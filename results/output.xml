@@ -1,112 +1,247 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.3.2 (Python 3.13.5 on win32)" generated="2025-07-20T22:39:27.850528" rpa="false" schemaversion="5">
-<suite id="s1" name="Login Fluxo Test" source="C:\Users\nana\conexao-verde\tests\automacao\tests\E2E\login_fluxo_test.robot">
-<kw name="Abrir Navegador na Tela de Login" owner="loginSteps" type="SETUP">
+<robot generator="Robot 7.3.2 (Python 3.13.5 on win32)" generated="2025-11-27T23:15:45.382039" rpa="false" schemaversion="5">
+<suite id="s1" name="Tests" source="C:\Users\nana\conexao-verde\tests\automacao\tests">
+<suite id="s1-s1" name="Componentes" source="C:\Users\nana\conexao-verde\tests\automacao\tests\componentes">
+<suite id="s1-s1-s1" name="Intro Componentes Test" source="C:\Users\nana\conexao-verde\tests\automacao\tests\componentes\intro_componentes_test.robot">
+<kw name="Abrir Navegador Na Página De Introdução" owner="introSteps" type="SETUP">
 <kw name="Open Browser" owner="SeleniumLibrary">
-<msg time="2025-07-20T22:39:28.225271" level="INFO">Opening browser 'chrome' to base url 'http://localhost:4200'.</msg>
+<msg time="2025-11-27T23:15:45.917496" level="INFO">Opening browser 'chrome' to base url 'http://localhost:4200'.</msg>
 <arg>${URL}</arg>
 <arg>chrome</arg>
 <doc>Opens a new browser instance to the optional ``url``.</doc>
-<status status="PASS" start="2025-07-20T22:39:28.224870" elapsed="2.639277"/>
+<status status="PASS" start="2025-11-27T23:15:45.917146" elapsed="3.575497"/>
 </kw>
 <kw name="Maximize Browser Window" owner="SeleniumLibrary">
 <doc>Maximizes current browser window.</doc>
-<status status="PASS" start="2025-07-20T22:39:30.864811" elapsed="0.070414"/>
+<status status="PASS" start="2025-11-27T23:15:49.493377" elapsed="0.104568"/>
 </kw>
 <kw name="Go To" owner="SeleniumLibrary">
-<msg time="2025-07-20T22:39:30.935893" level="INFO">Opening url 'http://localhost:4200'</msg>
+<msg time="2025-11-27T23:15:49.599482" level="INFO">Opening url 'http://localhost:4200'</msg>
 <arg>${URL}</arg>
 <doc>Navigates the current browser window to the provided ``url``.</doc>
-<status status="PASS" start="2025-07-20T22:39:30.935541" elapsed="0.404990"/>
+<status status="PASS" start="2025-11-27T23:15:49.598709" elapsed="0.579403"/>
 </kw>
-<status status="PASS" start="2025-07-20T22:39:28.223774" elapsed="3.117180"/>
+<doc>Abre o navegador e acessa a URL inicial do sistema.</doc>
+<status status="PASS" start="2025-11-27T23:15:45.916175" elapsed="4.262354"/>
 </kw>
-<test id="s1-t1" name="Login Válido" line="14">
+<test id="s1-s1-s1-t1" name="Verificar componentes da tela de introdução" line="12">
+<kw name="Verificar Titulo E Ícone Da Introdução" owner="introSteps">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${botao_intro}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-11-27T23:15:50.182682" elapsed="3.168998"/>
+</kw>
+<kw name="Element Should Be Visible" owner="SeleniumLibrary">
+<msg time="2025-11-27T23:15:53.402866" level="INFO">Element 'id=tela-introducao-titulo' is displayed.</msg>
+<arg>${titulo_intro}</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<status status="PASS" start="2025-11-27T23:15:53.352931" elapsed="0.050414"/>
+</kw>
+<kw name="Get Text" owner="SeleniumLibrary">
+<msg time="2025-11-27T23:15:53.460590" level="INFO">${texto_titulo} = Conexão Verde</msg>
+<var>${texto_titulo}</var>
+<arg>${titulo_intro}</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-11-27T23:15:53.404181" elapsed="0.056541"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${texto_titulo}</arg>
+<arg>Conexão Verde</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-11-27T23:15:53.461077" elapsed="0.000526"/>
+</kw>
+<kw name="Element Should Be Visible" owner="SeleniumLibrary">
+<msg time="2025-11-27T23:15:53.508404" level="INFO">Element 'id=icone-verde' is displayed.</msg>
+<arg>${icone_texto_intro}</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<status status="PASS" start="2025-11-27T23:15:53.461908" elapsed="0.046806"/>
+</kw>
+<doc>Verifica se título e ícone estão visíveis</doc>
+<status status="PASS" start="2025-11-27T23:15:50.181239" elapsed="3.327991"/>
+</kw>
+<kw name="Verificar Texto Da Introdução" owner="introSteps">
+<kw name="Get Text" owner="SeleniumLibrary">
+<msg time="2025-11-27T23:15:53.562563" level="INFO">${texto_introducao} = Do toque ao impacto, da ideia à ação: o verde da sua cidade passa por você.</msg>
+<var>${texto_introducao}</var>
+<arg>${texto_intro}</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-11-27T23:15:53.510940" elapsed="0.051699"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${texto_introducao}</arg>
+<arg>Do toque ao impacto, da ideia à ação: o verde da sua cidade passa por você.</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-11-27T23:15:53.562941" elapsed="0.000439"/>
+</kw>
+<kw name="Element Should Be Visible" owner="SeleniumLibrary">
+<msg time="2025-11-27T23:15:53.605906" level="INFO">Element 'id=tela-introducao-texto' is displayed.</msg>
+<arg>${texto_intro}</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<status status="PASS" start="2025-11-27T23:15:53.563716" elapsed="0.042452"/>
+</kw>
+<doc>Verifica se texto da introdução está correto e visível</doc>
+<status status="PASS" start="2025-11-27T23:15:53.510271" elapsed="0.096136"/>
+</kw>
+<kw name="Verificar Botão De Introdução Está Habilitado" owner="introSteps">
+<kw name="Element Should Be Visible" owner="SeleniumLibrary">
+<msg time="2025-11-27T23:15:53.646515" level="INFO">Element 'id=buttom-introducao' is displayed.</msg>
+<arg>${botao_intro}</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<status status="PASS" start="2025-11-27T23:15:53.608131" elapsed="0.038614"/>
+</kw>
+<kw name="Element Should Be Enabled" owner="SeleniumLibrary">
+<arg>${botao_intro}</arg>
+<doc>Verifies that element identified by ``locator`` is enabled.</doc>
+<status status="PASS" start="2025-11-27T23:15:53.647168" elapsed="0.078426"/>
+</kw>
+<doc>Verifica se o botão da tela de introdução está visível e habilitado.</doc>
+<status status="PASS" start="2025-11-27T23:15:53.607456" elapsed="0.118470"/>
+</kw>
+<kw name="Verificar Navegação Para Tela De Login" owner="introSteps">
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-11-27T23:15:53.729002" level="INFO">Clicking element 'id=buttom-introducao'.</msg>
+<arg>${botao_intro}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-11-27T23:15:53.728349" elapsed="0.293526"/>
+</kw>
+<kw name="Scroll Element Into View" owner="SeleniumLibrary">
+<arg>${campo_email}</arg>
+<doc>Scrolls the element identified by ``locator`` into view.</doc>
+<status status="PASS" start="2025-11-27T23:15:54.022473" elapsed="0.365885"/>
+</kw>
+<doc>Clica no botão de introdução e verifica se o campo de e-mail da tela de login aparece.</doc>
+<status status="PASS" start="2025-11-27T23:15:53.727091" elapsed="0.661457"/>
+</kw>
+<doc>Verifica elementos da tela de introdução</doc>
+<status status="PASS" start="2025-11-27T23:15:50.178870" elapsed="4.210396"/>
+</test>
+<kw name="Fechar Navegador" owner="introSteps" type="TEARDOWN">
+<kw name="Close All Browsers" owner="SeleniumLibrary">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" start="2025-11-27T23:15:54.392850" elapsed="6.661519"/>
+</kw>
+<status status="PASS" start="2025-11-27T23:15:54.392273" elapsed="6.662334"/>
+</kw>
+<status status="PASS" start="2025-11-27T23:15:45.482081" elapsed="15.572635"/>
+</suite>
+<status status="PASS" start="2025-11-27T23:15:45.479410" elapsed="15.578103"/>
+</suite>
+<suite id="s1-s2" name="E2E" source="C:\Users\nana\conexao-verde\tests\automacao\tests\E2E">
+<suite id="s1-s2-s1" name="Login Fluxo Test" source="C:\Users\nana\conexao-verde\tests\automacao\tests\E2E\login_fluxo_test.robot">
+<kw name="Abrir Navegador na Tela de Login" owner="loginSteps" type="SETUP">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-11-27T23:16:01.079278" level="INFO">Opening browser 'chrome' to base url 'http://localhost:4200'.</msg>
+<arg>${URL}</arg>
+<arg>chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-11-27T23:16:01.078856" elapsed="2.626900"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2025-11-27T23:16:03.706343" elapsed="0.304578"/>
+</kw>
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2025-11-27T23:16:04.011893" level="INFO">Opening url 'http://localhost:4200'</msg>
+<arg>${URL}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2025-11-27T23:16:04.011390" elapsed="0.431024"/>
+</kw>
+<status status="PASS" start="2025-11-27T23:16:01.078253" elapsed="3.364558"/>
+</kw>
+<test id="s1-s2-s1-t1" name="Login Válido" line="14">
 <kw name="Clicar No Botão da Tela De Introdução" owner="loginSteps">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
 <arg>${botao_intro}</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-07-20T22:39:31.344217" elapsed="3.226831"/>
+<status status="PASS" start="2025-11-27T23:16:04.446604" elapsed="3.175271"/>
 </kw>
 <kw name="Click Button" owner="SeleniumLibrary">
-<msg time="2025-07-20T22:39:34.572310" level="INFO">Clicking button 'id=buttom-introducao'.</msg>
+<msg time="2025-11-27T23:16:07.622836" level="INFO">Clicking button 'id=buttom-introducao'.</msg>
 <arg>${botao_intro}</arg>
 <doc>Clicks the button identified by ``locator``.</doc>
-<status status="PASS" start="2025-07-20T22:39:34.571524" elapsed="0.288234"/>
+<status status="PASS" start="2025-11-27T23:16:07.622301" elapsed="0.385042"/>
 </kw>
-<status status="PASS" start="2025-07-20T22:39:31.343071" elapsed="3.516975"/>
+<status status="PASS" start="2025-11-27T23:16:04.445328" elapsed="3.562286"/>
 </kw>
 <kw name=" Preencher Credenciais" owner="loginSteps">
 <kw name="Scroll Element Into View" owner="SeleniumLibrary">
 <arg>${botao_login}</arg>
 <doc>Scrolls the element identified by ``locator`` into view.</doc>
-<status status="PASS" start="2025-07-20T22:39:34.862104" elapsed="0.326562"/>
+<status status="PASS" start="2025-11-27T23:16:08.009556" elapsed="0.373260"/>
 </kw>
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2025-07-20T22:39:35.189860" level="INFO">Typing text 'nathaliegiuliani@hotmail.com' into text field 'id=email'.</msg>
+<msg time="2025-11-27T23:16:08.383864" level="INFO">Typing text 'nathaliegiuliani@hotmail.com' into text field 'id=email'.</msg>
 <arg>${campo_email}</arg>
 <arg>${user}</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2025-07-20T22:39:35.189138" elapsed="0.288638"/>
+<status status="PASS" start="2025-11-27T23:16:08.383224" elapsed="0.377476"/>
 </kw>
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2025-07-20T22:39:35.478852" level="INFO">Typing text '123456' into text field 'id=senha'.</msg>
+<msg time="2025-11-27T23:16:08.761782" level="INFO">Typing text '123456' into text field 'id=senha'.</msg>
 <arg>${campo_senha}</arg>
 <arg>${pass}</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2025-07-20T22:39:35.478192" elapsed="0.174718"/>
+<status status="PASS" start="2025-11-27T23:16:08.761138" elapsed="0.194106"/>
 </kw>
 <arg>${USER}</arg>
 <arg>${PASS}</arg>
-<status status="PASS" start="2025-07-20T22:39:34.861060" elapsed="0.792081"/>
+<status status="PASS" start="2025-11-27T23:16:08.008476" elapsed="0.947257"/>
 </kw>
 <kw name="Clicar No Botão Do Login" owner="loginSteps">
 <kw name="Click Button" owner="SeleniumLibrary">
-<msg time="2025-07-20T22:39:35.655449" level="INFO">Clicking button 'id=botao-login'.</msg>
+<msg time="2025-11-27T23:16:08.958238" level="INFO">Clicking button 'id=botao-login'.</msg>
 <arg>${botao_login}</arg>
 <doc>Clicks the button identified by ``locator``.</doc>
-<status status="PASS" start="2025-07-20T22:39:35.654902" elapsed="0.152605"/>
+<status status="PASS" start="2025-11-27T23:16:08.957681" elapsed="0.191405"/>
 </kw>
-<status status="PASS" start="2025-07-20T22:39:35.654087" elapsed="0.153700"/>
+<status status="PASS" start="2025-11-27T23:16:08.956724" elapsed="0.192956"/>
 </kw>
 <kw name="Verificar Sucesso No Login" owner="loginSteps">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
 <arg>${msg_boas_vindas}</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-07-20T22:39:35.810094" elapsed="1.269309"/>
+<status status="PASS" start="2025-11-27T23:16:09.153084" elapsed="1.279802"/>
 </kw>
 <kw name="Element Should Contain" owner="SeleniumLibrary">
-<msg time="2025-07-20T22:39:37.154445" level="INFO">Element 'id=texto-explicativo' contains text 'Descubra projetos ambientais perto de você e comece a fazer a diferença'.</msg>
+<msg time="2025-11-27T23:16:10.508746" level="INFO">Element 'id=texto-explicativo' contains text 'Descubra projetos ambientais perto de você e comece a fazer a diferença'.</msg>
 <arg>${msg_boas_vindas}</arg>
 <arg>Descubra projetos ambientais perto de você e comece a fazer a diferença</arg>
 <doc>Verifies that element ``locator`` contains text ``expected``.</doc>
-<status status="PASS" start="2025-07-20T22:39:37.079724" elapsed="0.074931"/>
+<status status="PASS" start="2025-11-27T23:16:10.433249" elapsed="0.075836"/>
 </kw>
-<status status="PASS" start="2025-07-20T22:39:35.809064" elapsed="1.345825"/>
+<status status="PASS" start="2025-11-27T23:16:09.151258" elapsed="1.358247"/>
 </kw>
 <doc>Realiza login e verifica saudação na tela inicial</doc>
-<status status="PASS" start="2025-07-20T22:39:31.341285" elapsed="5.814384"/>
+<status status="PASS" start="2025-11-27T23:16:04.443084" elapsed="6.067294"/>
 </test>
 <kw name="Fechar Navegador" owner="loginSteps" type="TEARDOWN">
 <kw name="Close All Browsers" owner="SeleniumLibrary">
 <doc>Closes all open browsers and resets the browser cache.</doc>
-<status status="PASS" start="2025-07-20T22:39:37.159311" elapsed="6.570041"/>
+<status status="PASS" start="2025-11-27T23:16:10.513810" elapsed="6.561494"/>
 </kw>
-<status status="PASS" start="2025-07-20T22:39:37.158514" elapsed="6.571108"/>
+<status status="PASS" start="2025-11-27T23:16:10.513142" elapsed="6.562419"/>
 </kw>
-<status status="PASS" start="2025-07-20T22:39:27.853094" elapsed="15.876639"/>
+<status status="PASS" start="2025-11-27T23:16:01.063302" elapsed="16.012361"/>
+</suite>
+<status status="PASS" start="2025-11-27T23:16:01.059538" elapsed="16.019355"/>
+</suite>
+<status status="PASS" start="2025-11-27T23:15:45.386273" elapsed="31.695327"/>
 </suite>
 <statistics>
 <total>
-<stat pass="1" fail="0" skip="0">All Tests</stat>
+<stat pass="2" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat name="Login Fluxo Test" id="s1" pass="1" fail="0" skip="0">Login Fluxo Test</stat>
+<stat name="Tests" id="s1" pass="2" fail="0" skip="0">Tests</stat>
+<stat name="Componentes" id="s1-s1" pass="1" fail="0" skip="0">Tests.Componentes</stat>
+<stat name="Intro Componentes Test" id="s1-s1-s1" pass="1" fail="0" skip="0">Tests.Componentes.Intro Componentes Test</stat>
+<stat name="E2E" id="s1-s2" pass="1" fail="0" skip="0">Tests.E2E</stat>
+<stat name="Login Fluxo Test" id="s1-s2-s1" pass="1" fail="0" skip="0">Tests.E2E.Login Fluxo Test</stat>
 </suite>
 </statistics>
 <errors>
-<msg time="2025-07-20T22:39:28.220490" level="WARN">Imported resource file 'C:\Users\nana\conexao-verde\tests\automacao\resources\main.resource' is empty.</msg>
+<msg time="2025-11-27T23:15:45.913577" level="WARN">Imported resource file 'C:\Users\nana\conexao-verde\tests\automacao\resources\main.resource' is empty.</msg>
 </errors>
 </robot>

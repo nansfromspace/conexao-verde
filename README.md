@@ -4,50 +4,110 @@
 
 ---
 
-## Criadoras
+## 👩‍💻 Criadoras
 
 - **Lara Alves de Oliveira**
 - **Nathalie Giuliani de Oliveira**
 
 ---
 
-## Funcionalidades
+## ✨ Funcionalidades
 
-✅ Visualização de projetos ambientais no mapa interativo  
-✅ Carrossel com os projetos em destaque  
-✅ Filtro por tipo de projeto e localização (perto de mim ou endereço manual)  
-✅ Modal de detalhes com informações da ONG e contato para participação  
-✅ Botão para copiar o contato da ONG com um clique  
-✅ Marcadores no mapa com ícones personalizados  
+### Autenticação
+✅ Login e registro com email/senha  
+✅ Login e registro com Google OAuth  
+✅ Validação de usuário registrado antes do login  
 
-- Sistema de "curtida" (like) por projeto — **em breve**
-- Integração com autenticação (Google) — **em breve**  
-- Salvamento de curtidas por usuário no Firebase — **em breve**  
+### Mapa Interativo
+✅ Visualização de projetos ambientais no mapa com Leaflet  
+✅ Marcadores personalizados por tipo de projeto  
+✅ Modal de detalhes com informações da ONG  
+✅ Botão de contato via WhatsApp com mensagem predefinida  
+✅ Sistema de favoritar/desfavoritar projetos  
+
+### Filtros Avançados
+✅ Filtro por tipo de projeto (Plantar, Limpeza, Outros)  
+✅ Filtro por localização (Perto de mim ou endereço manual)  
+✅ Filtro por dia da semana   
+
+### Favoritos
+✅ Página dedicada para projetos favoritados  
+✅ Sincronização em tempo real com Firestore  
+✅ Desfavoritar com um clique  
+
+### Depoimentos
+✅ Página de avaliações com sistema de estrelas (1-5)  
+✅ Adicionar depoimento com texto e classificação  
+✅ Ícones de plantas aleatórios por usuário  
+✅ Timestamp automático com serverTimestamp  
+
+### Navegação
+✅ Bottom navigation bar com 3 seções (Mapa, Depoimentos, Favoritos)  
+✅ Top navigation com logo clicável para voltar à home  
+✅ Botão de logout  
 
 ---
 
-## Tecnologias Utilizadas
+## 🛠️ Tecnologias Utilizadas
 
-- Angular 17 (Standalone Components)
+- **Angular 19.2** (Standalone Components)
+- **TypeScript 5.7.2** (Strict mode)
+- **Firebase** (Firestore + Authentication)
+- **Leaflet 1.9.4** (Mapas interativos)
+- **Font Awesome 6.7** (Ícones)
+- **RxJS 7.8** (Programação reativa)
+- **Service Worker** (PWA)
 - HTML5 + CSS3
-- Font Awesome (ícones)
-- Firebase (Firestore + Auth)
-- Leaflet (mapas interativos)
 - Git + GitHub
 
 ---
 
-## Como rodar o projeto localmente
+## 🚀 Como rodar o projeto localmente
 
+1. **Clone o repositório**
 ```bash
-# Clone o repositório
 git clone https://github.com/nansfromspace/conexao-verde.git
-
-# Entre na pasta do projeto
 cd conexao-verde
+```
 
-# Instale as dependências
+2. **Instale as dependências**
+```bash
 npm install
+```
 
-# Rode o projeto localmente
+3. **Inicie o servidor de desenvolvimento**
+```bash
 ng serve
+```
+
+4. **Acesse o aplicativo**
+   - Abra seu navegador em `http://localhost:4200`
+
+---
+
+## 📱 Estrutura do Projeto
+
+```
+src/
+├── app/
+│   ├── shared/
+│   │   ├── top-nav/           # Barra de navegação superior
+│   │   └── bottom-nav/        # Barra de navegação inferior
+│   ├── splash/                # Tela de abertura
+│   ├── tela-de-introducao/    # Slides introdutórios
+│   ├── tela-de-login/         # Login (Email/Google)
+│   ├── tela-de-registro/      # Registro (Email/Google)
+│   ├── tela-inicial/          # Home com botão para o mapa
+│   ├── tela-do-mapa/          # Mapa interativo + filtros
+│   ├── tela-de-favoritos/     # Lista de favoritos
+│   └── tela-de-depoimentos/   # Avaliações e depoimentos
+├── assets/
+│   └── images/                # Logos e ícones
+└── environments/              # Configurações de ambiente
+```
+
+---
+
+## 📧 Contato
+
+Para dúvidas ou sugestões, entre em contato com as criadoras através do GitHub

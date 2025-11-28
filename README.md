@@ -116,7 +116,7 @@ O projeto utiliza **Robot Framework** com **SeleniumLibrary** para testes E2E au
 
 1. **Instale as dependências do Robot Framework**
 ```bash
-pip install -r requirements.txt
+pip install -r tests/requirements.txt
 ```
 
 2. **Certifique-se de que o servidor está rodando**

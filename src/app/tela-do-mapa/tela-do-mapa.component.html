@@ -68,6 +68,43 @@
     />
   </div>
 
+  <!-- DATA DO PROJETO -->
+  <div class="filtro-box">
+    <h3>Dia da semana</h3>
+
+    <!-- Seletor de dias da semana -->
+    <div class="dias-semana">
+      <label class="dia-label">
+        <input type="checkbox" [(ngModel)]="diasSelecionados.segunda" />
+        Segunda
+      </label>
+      <label class="dia-label">
+        <input type="checkbox" [(ngModel)]="diasSelecionados.terca" />
+        Terça
+      </label>
+      <label class="dia-label">
+        <input type="checkbox" [(ngModel)]="diasSelecionados.quarta" />
+        Quarta
+      </label>
+      <label class="dia-label">
+        <input type="checkbox" [(ngModel)]="diasSelecionados.quinta" />
+        Quinta
+      </label>
+      <label class="dia-label">
+        <input type="checkbox" [(ngModel)]="diasSelecionados.sexta" />
+        Sexta
+      </label>
+      <label class="dia-label">
+        <input type="checkbox" [(ngModel)]="diasSelecionados.sabado" />
+        Sábado
+      </label>
+      <label class="dia-label">
+        <input type="checkbox" [(ngModel)]="diasSelecionados.domingo" />
+        Domingo
+      </label>
+    </div>
+  </div>
+
   <!-- BOTÕES DE AÇÃO -->
   <div class="botoes-filtros">
     <button class="botao-filtrar" (click)="aplicarFiltro()">Filtrar</button>
@@ -114,11 +151,18 @@
     <p><i class="fa-solid fa-clock"></i> {{ projetoSelecionado?.horario }}</p>
     <p><i class="fa-solid fa-leaf"></i> {{ projetoSelecionado?.nomeOng }}</p>
 
-    <div class="like-container">
-      <i class="fa-regular fa-heart"></i>
+    <div class="like-container" (click)="toggleFavorito()">
+      <i [class]="projetoFavoritado ? 'fa-solid fa-heart favoritado' : 'fa-regular fa-heart'"></i>
+      <span>{{ projetoFavoritado ? 'Favoritado' : 'Favoritar' }}</span>
     </div>
 
+    <button class="botao-whatsapp" (click)="abrirWhatsApp()">
+      <i class="fa-brands fa-whatsapp"></i>
+      Entrar em contato via WhatsApp
+    </button>
+
     <button class="botao-contato" (click)="copiarContato()">
+      <i class="fa-solid fa-copy"></i>
       Copiar contato da ONG
     </button>
   </div>

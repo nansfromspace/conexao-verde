@@ -1,5 +1,5 @@
 <div id="titulo-registro" class="registro-container">
-    <i class="fa-solid fa-arrow-left"></i>
+    <i class="fa-solid fa-arrow-left voltar" (click)="voltar()"></i>
     <h2>Registre-se</h2>
 
     <label for="nome" id="texto-nome">Nome completo</label>
@@ -25,6 +25,16 @@
 
     <!-- botão que chama a função -->
     <button id="botao-registrar" class="botao-registrar" (click)="registrar()">Registrar</button>
+    
+    <div class="separador">
+      <span>ou</span>
+    </div>
+
+    <button class="botao-google" (click)="registrarComGoogle()">
+      <i class="fa-brands fa-google"></i>
+      Registrar com Google
+    </button>
+
     <p *ngIf="mensagemSucesso" class="sucesso">{{ mensagemSucesso }}</p>
 
 

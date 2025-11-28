@@ -15,6 +15,15 @@
       Entrar     <i class="fa-solid fa-arrow-right"></i>
     </button>
 
+    <div class="separador">
+      <span>ou</span>
+    </div>
+
+    <button class="botao-google" (click)="loginComGoogle()">
+      <i class="fa-brands fa-google"></i>
+      Entrar com Google
+    </button>
+
     <div *ngIf="mensagemErro" class="mensagem-erro">
      {{ mensagemErro }}
     </div>

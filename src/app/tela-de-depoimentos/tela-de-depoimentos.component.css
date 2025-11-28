@@ -1,0 +1,322 @@
+.depoimentos-container {
+  min-height: calc(100vh - 120px);
+  padding: 24px 16px 100px;
+  background-color: #f9fff0;
+}
+
+.header-depoimentos {
+  text-align: center;
+  margin-top: 80px;
+  margin-bottom: 32px;
+}
+
+.header-depoimentos h1 {
+  font-size: 28px;
+  font-weight: 900;
+  color: #174537;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.subtitulo {
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.botao-adicionar {
+  background-color: #d4f141;
+  color: #174537;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 14px 32px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.botao-adicionar:hover {
+  background-color: #c0e020;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: #335400;
+}
+
+.loading i {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.loading p {
+  font-size: 18px;
+  color: #666;
+}
+
+/* Mensagem vazia */
+.mensagem-vazia {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.icone-grande {
+  font-size: 80px;
+  color: #ccc;
+  margin-bottom: 24px;
+}
+
+.mensagem-vazia h2 {
+  font-size: 22px;
+  font-weight: bold;
+  color: #174537;
+  margin-bottom: 12px;
+}
+
+.mensagem-vazia p {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Lista de depoimentos */
+.lista-depoimentos {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card-depoimento {
+  background-color: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-depoimento:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.depoimento-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  gap: 16px;
+}
+
+.usuario-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d4f141, #335400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.usuario-dados h3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #174537;
+  margin: 0 0 4px 0;
+}
+
+.data {
+  font-size: 14px;
+  color: #999;
+  margin: 0;
+}
+
+.estrelas {
+  display: flex;
+  gap: 4px;
+  font-size: 18px;
+  color: #ffc107;
+}
+
+.estrelas i.fa-regular {
+  color: #ddd;
+}
+
+.depoimento-texto {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  margin: 0;
+}
+
+/* Modal */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.modal-depoimento {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: 24px;
+  z-index: 1000;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.modal-header h2 {
+  font-size: 22px;
+  font-weight: bold;
+  color: #174537;
+  margin: 0;
+}
+
+.fechar {
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #333;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-conteudo label {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #174537;
+  margin-bottom: 12px;
+  margin-top: 20px;
+}
+
+.modal-conteudo label:first-child {
+  margin-top: 0;
+}
+
+.seletor-estrelas {
+  display: flex;
+  gap: 8px;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.seletor-estrelas i {
+  cursor: pointer;
+  color: #ddd;
+  transition: all 0.2s ease;
+}
+
+.seletor-estrelas i.fa-solid {
+  color: #ffc107;
+}
+
+.seletor-estrelas i:hover {
+  transform: scale(1.2);
+}
+
+textarea {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  font-size: 16px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 120px;
+  transition: border-color 0.3s ease;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #d4f141;
+}
+
+.botao-enviar {
+  width: 100%;
+  background-color: #335400;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 14px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.botao-enviar:hover {
+  background-color: #264000;
+}
+
+/* Responsivo */
+@media (min-width: 768px) {
+  .modal-depoimento {
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 600px;
+    bottom: auto;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 24px;
+  }
+
+  .lista-depoimentos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .depoimentos-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}

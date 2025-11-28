@@ -1,0 +1,59 @@
+<app-top-nav></app-top-nav>
+
+<div class="favoritos-container">
+  <div class="header-favoritos">
+    <h1>Favoritos</h1>
+    <p class="subtitulo">Projetos que você curtiu</p>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="carregando" class="loading">
+    <i class="fa-solid fa-spinner fa-spin"></i>
+    <p>Carregando favoritos...</p>
+  </div>
+
+  <!-- Não logado -->
+  <div *ngIf="!usuarioLogado && !carregando" class="mensagem-vazia">
+    <i class="fa-solid fa-user-lock icone-grande"></i>
+    <h2>Faça login para ver seus favoritos</h2>
+    <p>Entre na sua conta para salvar e visualizar seus projetos favoritos</p>
+    <a routerLink="/login" class="botao-login">Fazer Login</a>
+  </div>
+
+  <!-- Nenhum favorito -->
+  <div *ngIf="usuarioLogado && !carregando && projetosFavoritos.length === 0" class="mensagem-vazia">
+    <i class="fa-regular fa-heart icone-grande"></i>
+    <h2>Nenhum favorito ainda</h2>
+    <p>Explore o mapa e favorite projetos para vê-los aqui!</p>
+    <a routerLink="/mapa" class="botao-explorar">Explorar Projetos</a>
+  </div>
+
+  <!-- Lista de favoritos -->
+  <div *ngIf="!carregando && projetosFavoritos.length > 0" class="lista-favoritos">
+    <div *ngFor="let projeto of projetosFavoritos" class="card-projeto">
+      <div class="card-header">
+        <h3>{{ projeto.nome }}</h3>
+        <span class="badge-tipo">{{ projeto.tipo }}</span>
+      </div>
+      
+      <div class="card-info">
+        <p><i class="fa-solid fa-location-dot"></i> {{ projeto.endereco }}</p>
+        <p><i class="fa-solid fa-clock"></i> {{ projeto.horario }}</p>
+        <p><i class="fa-solid fa-leaf"></i> {{ projeto.nomeOng }}</p>
+      </div>
+
+      <div class="card-actions">
+        <button (click)="desfavoritar(projeto.id)" class="botao-desfavoritar">
+          <i class="fa-solid fa-heart-crack"></i>
+          Desfavoritar
+        </button>
+        <a routerLink="/mapa" class="botao-ver-mapa">
+          <i class="fa-solid fa-map"></i>
+          Ver no Mapa
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-bottom-nav></app-bottom-nav>

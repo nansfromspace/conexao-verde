@@ -3,6 +3,8 @@ import { TelaDeRegistroComponent } from './tela-de-registro/tela-de-registro.com
 import { TelaInicialComponent } from './tela-inicial/tela-inicial.component';
 import { TelaDoMapaComponent } from './tela-do-mapa/tela-do-mapa.component';
 import { TelaDeLoginComponent } from './tela-de-login/tela-de-login.component';
+import { TelaDeFavoritosComponent } from './tela-de-favoritos/tela-de-favoritos.component';
+import { TelaDeDepoimentosComponent } from './tela-de-depoimentos/tela-de-depoimentos.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'splash', pathMatch: 'full' },
@@ -24,4 +26,6 @@ export const routes: Routes = [
   { path: 'home', component: TelaInicialComponent },
   { path: 'mapa', component: TelaDoMapaComponent },
   { path: 'login', component: TelaDeLoginComponent },
+  { path: 'favoritos', component: TelaDeFavoritosComponent },
+  { path: 'depoimentos', component: TelaDeDepoimentosComponent },
 ];

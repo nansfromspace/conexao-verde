@@ -5,6 +5,7 @@
 Library    SeleniumLibrary
 Resource   ../../resources/enviroments/env.resource
 Resource   ../../steps/loginSteps.resource
+Resource   ../..//resources/main.resource
 
 Suite Setup    Abrir Navegador na Tela de Login
 Suite Teardown  Fechar Navegador

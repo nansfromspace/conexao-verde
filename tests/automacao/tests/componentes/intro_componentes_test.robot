@@ -3,6 +3,7 @@
 Library    SeleniumLibrary
 Resource   ../../resources/enviroments/env.resource
 Resource   ../../steps/introSteps.resource
+Resource   ../..//resources/main.resource
 
 Suite Setup     Abrir Navegador Na Página De Introdução
 Suite Teardown  Fechar Navegador

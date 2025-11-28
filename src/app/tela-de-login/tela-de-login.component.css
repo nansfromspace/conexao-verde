@@ -84,4 +84,57 @@
   text-align: center;
 }
 
+.separador {
+  width: 100%;
+  text-align: center;
+  margin: 8px 0;
+  position: relative;
+  color: #666;
+  font-size: 14px;
+}
+
+.separador::before,
+.separador::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.separador::before {
+  left: 0;
+}
+
+.separador::after {
+  right: 0;
+}
+
+.botao-google {
+  background-color: #7DBC21;
+  color: #fff;
+  font-weight: 500;
+  border: none;
+  padding: 14px;
+  border-radius: 999px;
+  font-size: 18px;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.botao-google:hover {
+  background-color: #6BA61C;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.botao-google i {
+  font-size: 20px;
+}
+
   

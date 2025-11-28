@@ -2,7 +2,8 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
+import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -19,6 +20,7 @@ export class TelaDeLoginComponent {
 
   private auth: Auth = inject(Auth);
   private router: Router = inject(Router);
+  private firestore: Firestore = inject(Firestore);
 
   fazerLogin() {
   this.mensagemErro = '';
@@ -52,4 +54,38 @@ export class TelaDeLoginComponent {
   }
 });
 }
+
+  async loginComGoogle() {
+    this.mensagemErro = '';
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+
+    try {
+      const result = await signInWithPopup(this.auth, provider);
+      const user = result.user;
+
+      // Verificar se o usuário já existe no Firestore
+      const docRef = doc(this.firestore, 'usuarios', user.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (!docSnap.exists()) {
+        // Usuário não cadastrado, fazer logout e mostrar mensagem
+        await this.auth.signOut();
+        this.mensagemErro = 'Você ainda não possui cadastro. Por favor, registre-se primeiro!';
+        return;
+      }
+
+      this.router.navigate(['/home']);
+    } catch (error: any) {
+      console.error('Erro ao fazer login com Google:', error);
+      
+      if (error.code === 'auth/popup-closed-by-user') {
+        this.mensagemErro = 'Login cancelado.';
+      } else if (error.code === 'auth/popup-blocked') {
+        this.mensagemErro = 'Pop-up bloqueado. Permita pop-ups para fazer login.';
+      } else {
+        this.mensagemErro = 'Erro ao fazer login com Google. Tente novamente.';
+      }
+    }
+  }
 }

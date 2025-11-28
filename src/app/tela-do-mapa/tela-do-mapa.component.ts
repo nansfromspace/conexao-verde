@@ -1,7 +1,8 @@
 import { Component, OnInit, AfterViewInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Firestore, collection, getDocs } from '@angular/fire/firestore';
+import { Auth } from '@angular/fire/auth';
+import { Firestore, collection, getDocs, doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove } from '@angular/fire/firestore';
 import * as L from 'leaflet';
 import { TopNavComponent } from '../shared/top-nav/top-nav.component';
 import { BottomNavComponent } from '../shared/bottom-nav/bottom-nav.component';
@@ -28,6 +29,7 @@ function calcularDistanciaKm(lat1: number, lon1: number, lat2: number, lon2: num
 })
 export class TelaDoMapaComponent implements OnInit, AfterViewInit {
   private firestore: Firestore = inject(Firestore);
+  private auth: Auth = inject(Auth);
   projetos: any[] = [];
   todosProjetos: any[] = [];
   private map!: L.Map;
@@ -38,10 +40,23 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
   filtroLocal: 'perto' | 'manual' | null = null;
   enderecoManual: string = '';
 
+  favoritos: string[] = [];
+  projetoFavoritado = false;
+
   tiposSelecionados = {
     plantar: false,
     limpeza: false,
     outros: false
+  };
+
+  diasSelecionados = {
+    segunda: false,
+    terca: false,
+    quarta: false,
+    quinta: false,
+    sexta: false,
+    sabado: false,
+    domingo: false
   };
 
   detalhesAbertos = false;
@@ -68,22 +83,37 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
       const contatoOng = ongData['contato'];
       const atividades = ongData['atividades'];
 
-      atividades.forEach((atividade: any) => {
+      atividades.forEach((atividade: any, index: number) => {
         const projeto = {
+          id: `${docSnap.id}_${index}`,
           nome: atividade.nome,
           endereco: atividade.local,
           horario: atividade.horario,
           nomeOng: nomeOng,
           contatoOng: contatoOng,
           coordenadas: atividade.coordenadas,
-          tipo: atividade.tipo?.toLowerCase() || 'outros'
+          tipo: atividade.tipo?.toLowerCase() || 'outros',
+          diasSemana: atividade.diasSemana
         };
 
         this.todosProjetos.push(projeto);
       });
     });
 
+    await this.carregarFavoritos();
     this.filtrarProjetos();
+  }
+
+  async carregarFavoritos() {
+    const user = this.auth.currentUser;
+    if (!user) return;
+
+    const userDocRef = doc(this.firestore, 'usuarios', user.uid);
+    const userDoc = await getDoc(userDocRef);
+
+    if (userDoc.exists()) {
+      this.favoritos = userDoc.data()['favoritos'] || [];
+    }
   }
 
   redesenharMarcadores() {
@@ -113,6 +143,7 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
   filtrarProjetos() {
     let filtrados = this.todosProjetos;
 
+    // Filtro por tipo
     this.filtroTiposSelecionados = [];
     if (this.tiposSelecionados.plantar) this.filtroTiposSelecionados.push('plantar');
     if (this.tiposSelecionados.limpeza) this.filtroTiposSelecionados.push('limpeza de espaços');
@@ -122,6 +153,48 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
       filtrados = filtrados.filter(projeto =>
         this.filtroTiposSelecionados.includes(projeto.tipo)
       );
+    }
+
+    // Filtro por dia da semana
+    const diasSelecionadosArray: string[] = [];
+      if (this.diasSelecionados.segunda) diasSelecionadosArray.push('segunda');
+      if (this.diasSelecionados.terca) diasSelecionadosArray.push('terca');
+      if (this.diasSelecionados.quarta) diasSelecionadosArray.push('quarta');
+      if (this.diasSelecionados.quinta) diasSelecionadosArray.push('quinta');
+      if (this.diasSelecionados.sexta) diasSelecionadosArray.push('sexta');
+      if (this.diasSelecionados.sabado) diasSelecionadosArray.push('sabado');
+      if (this.diasSelecionados.domingo) diasSelecionadosArray.push('domingo');
+
+      console.log('Dias selecionados:', diasSelecionadosArray);
+
+      if (diasSelecionadosArray.length > 0) {
+        filtrados = filtrados.filter(projeto => {
+          console.log('Projeto:', projeto.nome, 'Dias:', projeto.diasSemana);
+          
+          // Verifica se o projeto tem dias da semana definidos
+          if (!projeto.diasSemana) {
+            return false;
+          }
+          
+          // Converte para array se for string
+          const diasProjeto = Array.isArray(projeto.diasSemana) 
+            ? projeto.diasSemana 
+            : [projeto.diasSemana];
+          
+          // Normaliza e compara (remove acentos e coloca em minúsculo)
+          const diasProjetoNormalizados: string[] = diasProjeto.map((dia: string) => 
+            dia.toLowerCase()
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+          );
+          
+          const match = diasSelecionadosArray.some((dia: string) => 
+            diasProjetoNormalizados.includes(dia)
+          );
+          
+          console.log('Dias normalizados:', diasProjetoNormalizados, 'Match:', match);
+          return match;
+        });
     }
 
     if (this.filtroLocal === 'perto') {
@@ -233,6 +306,7 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
 
   limparFiltro() {
     this.tiposSelecionados = { plantar: false, limpeza: false, outros: false };
+    this.diasSelecionados = { segunda: false, terca: false, quarta: false, quinta: false, sexta: false, sabado: false, domingo: false };
     this.filtroLocal = null;
     this.enderecoManual = '';
     this.projetos = [...this.todosProjetos];
@@ -243,20 +317,100 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
   abrirDetalhes(projeto: any) {
     this.projetoSelecionado = projeto;
     this.detalhesAbertos = true;
+    this.projetoFavoritado = this.favoritos.includes(projeto.id);
   }
 
   fecharDetalhes() {
     this.detalhesAbertos = false;
     this.projetoSelecionado = null;
+    this.projetoFavoritado = false;
+  }
+
+  async toggleFavorito() {
+    const user = this.auth.currentUser;
+    
+    if (!user) {
+      alert('Faça login para favoritar projetos!');
+      return;
+    }
+
+    if (!this.projetoSelecionado?.id) {
+      alert('Erro ao favoritar projeto.');
+      return;
+    }
+
+    const userDocRef = doc(this.firestore, 'usuarios', user.uid);
+    const projetoId = this.projetoSelecionado.id;
+
+    try {
+      if (this.projetoFavoritado) {
+        // Remover dos favoritos
+        await updateDoc(userDocRef, {
+          favoritos: arrayRemove(projetoId)
+        });
+        this.favoritos = this.favoritos.filter(id => id !== projetoId);
+        this.projetoFavoritado = false;
+      } else {
+        // Adicionar aos favoritos
+        const userDoc = await getDoc(userDocRef);
+        if (!userDoc.exists()) {
+          // Se não existe, criar o documento
+          await setDoc(userDocRef, {
+            favoritos: [projetoId]
+          }, { merge: true });
+        } else {
+          await updateDoc(userDocRef, {
+            favoritos: arrayUnion(projetoId)
+          });
+        }
+        this.favoritos.push(projetoId);
+        this.projetoFavoritado = true;
+      }
+    } catch (error) {
+      console.error('Erro ao favoritar:', error);
+      alert('Erro ao favoritar projeto. Tente novamente.');
+    }
   }
 
   copiarContato() {
     if (this.projetoSelecionado?.contatoOng) {
-      navigator.clipboard.writeText(this.projetoSelecionado.contatoOng)
+      navigator.clipboard.writeText(String(this.projetoSelecionado.contatoOng))
         .then(() => alert('Contato da ONG copiado com sucesso!'))
         .catch(() => alert('Erro ao copiar o contato.'));
     } else {
       alert('Contato da ONG não disponível.');
     }
+  }
+
+  abrirWhatsApp() {
+    console.log('Projeto selecionado:', this.projetoSelecionado);
+    console.log('Contato ONG:', this.projetoSelecionado?.contatoOng);
+    
+    if (!this.projetoSelecionado?.contatoOng) {
+      alert('Contato da ONG não disponível.');
+      return;
+    }
+
+    // Converter para string e remover caracteres não numéricos do telefone
+    const telefone = String(this.projetoSelecionado.contatoOng).replace(/\D/g, '');
+    console.log('Telefone limpo:', telefone);
+    
+    if (!telefone) {
+      alert('Número de telefone inválido.');
+      return;
+    }
+    
+    // Mensagem padrão
+    const mensagem = `Olá! Vim pelo Conexão Verde e gostaria de participar do projeto "${this.projetoSelecionado.nome}". Poderia me dar mais informações?`;
+    
+    // Codificar a mensagem para URL
+    const mensagemCodificada = encodeURIComponent(mensagem);
+    
+    // Criar URL do WhatsApp
+    const urlWhatsApp = `https://wa.me/${telefone}?text=${mensagemCodificada}`;
+    console.log('URL WhatsApp:', urlWhatsApp);
+    
+    // Abrir em nova aba
+    window.open(urlWhatsApp, '_blank');
   }
 }

@@ -1,0 +1,87 @@
+<app-top-nav></app-top-nav>
+
+<div class="depoimentos-container">
+  <div class="header-depoimentos">
+    <h1>Depoimentos</h1>
+    <p class="subtitulo">Veja o que as pessoas estão dizendo sobre o Conexão Verde</p>
+    
+    <button class="botao-adicionar" (click)="abrirModal()">
+      <i class="fa-solid fa-plus"></i>
+      Deixar meu depoimento
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="carregando" class="loading">
+    <i class="fa-solid fa-spinner fa-spin"></i>
+    <p>Carregando depoimentos...</p>
+  </div>
+
+  <!-- Nenhum depoimento -->
+  <div *ngIf="!carregando && depoimentos.length === 0" class="mensagem-vazia">
+    <i class="fa-regular fa-comment icone-grande"></i>
+    <h2>Nenhum depoimento ainda</h2>
+    <p>Seja o primeiro a compartilhar sua experiência!</p>
+  </div>
+
+  <!-- Lista de depoimentos -->
+  <div *ngIf="!carregando && depoimentos.length > 0" class="lista-depoimentos">
+    <div *ngFor="let depoimento of depoimentos" class="card-depoimento">
+      <div class="depoimento-header">
+      <div class="usuario-info">
+        <div class="avatar" [attr.data-icon]="getIconeAleatorio(depoimento.id)">
+          <i [class]="getIconeAleatorio(depoimento.id)"></i>
+        </div>
+        <div class="usuario-dados">
+          <h3>{{ depoimento.nome }}</h3>
+          <p class="data">{{ formatarData(depoimento.data) }}</p>
+        </div>
+      </div>        <div class="estrelas">
+          <i *ngFor="let _ of getArrayEstrelas(depoimento.estrelas)" class="fa-solid fa-star"></i>
+          <i *ngFor="let _ of getArrayEstrelasVazias(depoimento.estrelas)" class="fa-regular fa-star"></i>
+        </div>
+      </div>
+
+      <p class="depoimento-texto">{{ depoimento.texto }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de adicionar depoimento -->
+<div class="overlay" *ngIf="modalAberto" (click)="fecharModal()"></div>
+
+<div class="modal-depoimento" *ngIf="modalAberto">
+  <div class="modal-header">
+    <h2>Deixe seu depoimento</h2>
+    <button class="fechar" (click)="fecharModal()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <div class="modal-conteudo">
+    <label>Quantas estrelas você dá?</label>
+    <div class="seletor-estrelas">
+      <i 
+        *ngFor="let i of [1, 2, 3, 4, 5]"
+        [class]="(estrelasHover >= i || (estrelasHover === 0 && novoDepoimento.estrelas >= i)) ? 'fa-solid fa-star' : 'fa-regular fa-star'"
+        (click)="selecionarEstrela(i)"
+        (mouseenter)="setHoverEstrela(i)"
+        (mouseleave)="limparHover()"
+      ></i>
+    </div>
+
+    <label>Seu depoimento</label>
+    <textarea 
+      [(ngModel)]="novoDepoimento.texto"
+      placeholder="Compartilhe sua experiência com o Conexão Verde..."
+      rows="5"
+    ></textarea>
+
+    <button class="botao-enviar" (click)="enviarDepoimento()">
+      <i class="fa-solid fa-paper-plane"></i>
+      Enviar Depoimento
+    </button>
+  </div>
+</div>
+
+<app-bottom-nav></app-bottom-nav>

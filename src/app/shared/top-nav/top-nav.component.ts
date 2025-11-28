@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { getAuth, signOut } from 'firebase/auth';
 
 @Component({
@@ -8,6 +9,12 @@ import { getAuth, signOut } from 'firebase/auth';
   styleUrls: ['./top-nav.component.css']
 })
 export class TopNavComponent {
+  private router = inject(Router);
+
+  voltarParaHome() {
+    this.router.navigate(['/home']);
+  }
+
   logout() {
     const auth = getAuth();
     signOut(auth)

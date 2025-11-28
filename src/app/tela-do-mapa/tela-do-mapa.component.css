@@ -208,6 +208,35 @@
   font-size: 18px;
 }
 
+.dias-semana {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.dias-semana .dia-label {
+  display: inline-block;
+  padding: 8px 12px;
+  margin: 0;
+  border: 2px solid #d4f141;
+  border-radius: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: white;
+  transition: background-color 0.2s, color 0.2s;
+  font-size: 16px;
+}
+
+.dias-semana .dia-label input {
+  display: none;
+}
+
+.dias-semana .dia-label:has(input:checked) {
+  background-color: #d4f141;
+  color: #174537;
+}
+
 /* Botões do filtro */
 .botoes-filtros {
   display: flex;
@@ -303,20 +332,85 @@
 
 .like-container {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 8px;
-  font-size: 20px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0;
+  padding: 12px;
+  background-color: #f9fff0;
+  border-radius: 12px;
+  font-size: 18px;
   color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.like-container:hover {
+  background-color: #f0f9e0;
+  border-color: #d4f141;
+}
+
+.like-container i {
+  font-size: 24px;
+  transition: all 0.3s ease;
+}
+
+.like-container .favoritado {
+  color: #e74c3c;
+}
+
+.like-container span {
+  font-weight: 500;
+  font-size: 16px;
 }
 
 .botao-contato {
   width: 100%;
   background-color: #335400;
   color: white;
-  font-size: 20px;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 14px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.botao-contato:hover {
+  background-color: #264000;
+}
+
+.botao-whatsapp {
+  width: 100%;
+  background-color: #335400;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
   padding: 14px;
   border-radius: 999px;
   border: none;
   cursor: pointer;
   margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background-color 0.3s ease;
 }
+
+.botao-whatsapp:hover {
+  background-color: #264000;
+}
+
+.botao-whatsapp i {
+  font-size: 22px;
+  color: white;
+}
+

@@ -414,3 +414,114 @@
   color: white;
 }
 
+.participantes-card {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #174537;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.participantes-card i {
+  color: #6ab301;
+  font-size: 14px;
+}
+
+.badge-tipo {
+  display: inline-block;
+  background-color: #d4f141;
+  color: #174537;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 12px;
+  text-transform: capitalize;
+  margin-bottom: 12px;
+}
+
+.dias-projeto {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.dias-projeto > i {
+  color: #335400;
+  font-size: 20px;
+  margin-right: 4px;
+}
+
+.badge-dia {
+  background-color: #f0f9e0;
+  color: #174537;
+  font-size: 14px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.participantes-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #f9fff0;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin: 16px 0;
+  font-size: 16px;
+  color: #174537;
+  border: 1px solid #e0eecc;
+}
+
+.participantes-info i {
+  color: #6ab301;
+  font-size: 22px;
+}
+
+.participantes-info strong {
+  color: #335400;
+  font-size: 18px;
+}
+
+.botao-participar {
+  width: 100%;
+  background-color: #6ab301;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 14px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.botao-participar:hover {
+  background-color: #559500;
+  transform: translateY(-1px);
+}
+
+.botao-participar.confirmado {
+  background-color: white;
+  color: #6ab301;
+  border: 2px solid #6ab301;
+}
+
+.botao-participar.confirmado:hover {
+  background-color: #f9fff0;
+}
+
+.botao-participar i {
+  font-size: 22px;
+}
+

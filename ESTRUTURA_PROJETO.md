@@ -85,7 +85,29 @@ Armazena dados de usuários registrados no app.
 
 ---
 
-### 3. **Coleção: `depoimentos`**
+### 3. **Coleção: `participacoes`**
+Armazena os usuários que confirmaram participação em cada projeto.
+O ID do documento é o mesmo ID do projeto (formato: `{ongId}_{indexAtividade}`).
+
+```typescript
+// Documento: {projetoId}
+{
+  usuarios: string[];  // Array de UIDs dos usuários que confirmaram
+}
+```
+
+**Exemplo:**
+```json
+{
+  "usuarios": ["uid_joao", "uid_maria", "uid_carlos"]
+}
+```
+
+> O contador de participantes é calculado a partir do `usuarios.length`.
+
+---
+
+### 4. **Coleção: `depoimentos`**
 Armazena avaliações e depoimentos de usuários.
 
 ```typescript
@@ -193,6 +215,26 @@ async toggleFavorito() {
   // 1. Valida se usuário está autenticado
   // 2. Adiciona/remove ID do projeto em usuarios[uid].favoritos
   // Usa arrayUnion/arrayRemove do Firestore
+}
+```
+
+#### Sistema de Confirmação de Participação
+```typescript
+async toggleParticipacao() {
+  // 1. Valida se usuário está autenticado
+  // 2. Adiciona/remove uid em participacoes/{projetoId}.usuarios
+  // 3. Atualiza contador local (participantes) e o mapa de contadores (participacoesMap)
+  // Usa arrayUnion/arrayRemove do Firestore
+}
+
+async carregarTodasParticipacoes() {
+  // Carrega todos os contadores de participação ao iniciar o mapa
+  // Usado para mostrar mini-contador em cada card do carrossel
+}
+
+async carregarParticipantesProjeto(projetoId: string) {
+  // Chamado ao abrir o modal de detalhes
+  // Define `participantes` (contador) e `usuarioParticipa` (boolean)
 }
 ```
 
@@ -495,6 +537,11 @@ Firebase Firestore
 │   │   ├── email?: string
 │   │   └── favoritos: [array de IDs]
 │   └── {uid2}
+│
+├── participacoes/
+│   ├── {projetoId}
+│   │   └── usuarios: [array de UIDs]
+│   └── {projetoId2}
 │
 └── depoimentos/
     ├── {docId}

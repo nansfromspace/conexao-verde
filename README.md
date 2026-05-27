@@ -21,7 +21,7 @@
 ### Mapa Interativo
 ✅ Visualização de projetos ambientais no mapa com Leaflet  
 ✅ Marcadores personalizados por tipo de projeto  
-✅ Modal de detalhes com informações da ONG  
+✅ Modal de detalhes completo (tipo, endereço, horário, ONG, dias da semana e contador de participantes)  
 ✅ Botão de contato via WhatsApp com mensagem predefinida  
 ✅ Sistema de favoritar/desfavoritar projetos  
 
@@ -34,6 +34,12 @@
 ✅ Página dedicada para projetos favoritados  
 ✅ Sincronização em tempo real com Firestore  
 ✅ Desfavoritar com um clique  
+
+### Confirmação de Participação
+✅ Botão de "Confirmar participação" em cada projeto  
+✅ Contador de pessoas confirmadas exibido no modal e no card  
+✅ Permite cancelar a participação a qualquer momento  
+✅ Sincronização com Firestore (coleção `participacoes`)  
 
 ### Depoimentos
 ✅ Página de avaliações com sistema de estrelas (1-5)  

@@ -336,6 +336,97 @@ todosProjetos = [
 
 ---
 
+## 👥 Fluxo de Confirmação de Participação
+
+```
+┌────────────────────────────────────────────────────────┐
+│ Usuario abre o modal de detalhes de um projeto        │
+│ → abrirDetalhes(projeto)                              │
+└─────────────────┬──────────────────────────────────────┘
+                  │
+                  └─► carregarParticipantesProjeto(projetoId)
+                      │
+                      └─► getDoc('participacoes/{projetoId}')
+                          │
+                          ├─ SIM (doc existe):
+                          │  ├─ participantes = usuarios.length
+                          │  └─ usuarioParticipa = usuarios.includes(uid)
+                          │
+                          └─ NÃO:
+                             ├─ participantes = 0
+                             └─ usuarioParticipa = false
+
+┌────────────────────────────────────────────────────────┐
+│ Usuario clica "Confirmar participação"                │
+└─────────────────┬──────────────────────────────────────┘
+                  │
+                  ▼
+         ┌────────────────────────┐
+         │ toggleParticipacao()   │
+         └────────┬───────────────┘
+                  │
+                  ├─ Valida: auth.currentUser existe
+                  │
+                  └─ Verifica: usuarioParticipa?
+                     │
+                     ├─ SIM (cancelar participação):
+                     │  └─ updateDoc('participacoes/{projetoId}', {
+                     │       usuarios: arrayRemove(uid)
+                     │     })
+                     │     ├─ usuarioParticipa = false
+                     │     └─ participantes--
+                     │
+                     └─ NÃO (confirmar participação):
+                        │
+                        ├─ Doc existe?
+                        │  ├─ SIM: updateDoc(..., arrayUnion(uid))
+                        │  └─ NÃO: setDoc(..., { usuarios: [uid] })
+                        │
+                        ├─ usuarioParticipa = true
+                        └─ participantes++
+```
+
+### Firestore: Antes e Depois
+
+**Antes (primeira confirmação no projeto `ong1_0`):**
+```
+participacoes/ong1_0  →  (documento não existe)
+```
+
+**Depois (primeira confirmação):**
+```json
+{
+  "usuarios": ["uid_joao"]
+}
+```
+
+**Depois (outra confirmação):**
+```json
+{
+  "usuarios": ["uid_joao", "uid_maria"]
+}
+```
+
+**Depois (Maria cancela):**
+```json
+{
+  "usuarios": ["uid_joao"]
+}
+```
+
+### Carregamento Inicial de Todos os Contadores
+
+```
+TelaDoMapaComponent.carregarProjetosDoFirebase()
+   └─► carregarTodasParticipacoes()
+       └─► getDocs(collection('participacoes'))
+           └─ Para cada doc:
+              └─ participacoesMap[projetoId] = usuarios.length
+                 (Usado para exibir contador em cada card)
+```
+
+---
+
 ## 💬 Fluxo de Depoimentos
 
 ```

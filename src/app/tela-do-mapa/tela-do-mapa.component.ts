@@ -43,6 +43,10 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
   favoritos: string[] = [];
   projetoFavoritado = false;
 
+  participantes: number = 0;
+  usuarioParticipa: boolean = false;
+  participacoesMap: { [id: string]: number } = {};
+
   tiposSelecionados = {
     plantar: false,
     limpeza: false,
@@ -93,7 +97,7 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
           contatoOng: contatoOng,
           coordenadas: atividade.coordenadas,
           tipo: atividade.tipo?.toLowerCase() || 'outros',
-          diasSemana: atividade.diasSemana
+          diasSemana: this.normalizarDias(atividade.diasSemana)
         };
 
         this.todosProjetos.push(projeto);
@@ -101,7 +105,57 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
     });
 
     await this.carregarFavoritos();
+    await this.carregarTodasParticipacoes();
     this.filtrarProjetos();
+  }
+
+  normalizarDias(valor: any): string[] {
+    if (!valor) return [];
+    if (Array.isArray(valor)) {
+      return valor
+        .map((d: any) => String(d).trim())
+        .filter((d: string) => d.length > 0);
+    }
+    if (typeof valor === 'string' && valor.trim().length > 0) {
+      return valor.split(',').map(d => d.trim()).filter(d => d.length > 0);
+    }
+    return [];
+  }
+
+  async carregarTodasParticipacoes() {
+    try {
+      const participacoesRef = collection(this.firestore, 'participacoes');
+      const snapshot = await getDocs(participacoesRef);
+
+      snapshot.forEach((docSnap) => {
+        const dados = docSnap.data();
+        const usuarios: string[] = dados['usuarios'] || [];
+        this.participacoesMap[docSnap.id] = usuarios.length;
+      });
+    } catch (error) {
+      console.error('Erro ao carregar participações:', error);
+    }
+  }
+
+  async carregarParticipantesProjeto(projetoId: string) {
+    try {
+      const docRef = doc(this.firestore, 'participacoes', projetoId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const usuarios: string[] = docSnap.data()['usuarios'] || [];
+        this.participantes = usuarios.length;
+        const user = this.auth.currentUser;
+        this.usuarioParticipa = user ? usuarios.includes(user.uid) : false;
+      } else {
+        this.participantes = 0;
+        this.usuarioParticipa = false;
+      }
+    } catch (error) {
+      console.error('Erro ao carregar participantes do projeto:', error);
+      this.participantes = 0;
+      this.usuarioParticipa = false;
+    }
   }
 
   async carregarFavoritos() {
@@ -314,16 +368,68 @@ export class TelaDoMapaComponent implements OnInit, AfterViewInit {
     this.map.setView([-23.5505, -46.6333], 12);
   }
 
-  abrirDetalhes(projeto: any) {
+  async abrirDetalhes(projeto: any) {
     this.projetoSelecionado = projeto;
     this.detalhesAbertos = true;
     this.projetoFavoritado = this.favoritos.includes(projeto.id);
+    await this.carregarParticipantesProjeto(projeto.id);
   }
 
   fecharDetalhes() {
     this.detalhesAbertos = false;
     this.projetoSelecionado = null;
     this.projetoFavoritado = false;
+    this.participantes = 0;
+    this.usuarioParticipa = false;
+  }
+
+  async toggleParticipacao() {
+    const user = this.auth.currentUser;
+
+    if (!user) {
+      alert('Faça login para confirmar sua participação!');
+      return;
+    }
+
+    if (!this.projetoSelecionado?.id) {
+      alert('Erro ao confirmar participação.');
+      return;
+    }
+
+    const projetoId = this.projetoSelecionado.id;
+    const docRef = doc(this.firestore, 'participacoes', projetoId);
+
+    try {
+      if (this.usuarioParticipa) {
+        await updateDoc(docRef, {
+          usuarios: arrayRemove(user.uid)
+        });
+        this.usuarioParticipa = false;
+        this.participantes = Math.max(0, this.participantes - 1);
+        this.participacoesMap[projetoId] = this.participantes;
+      } else {
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) {
+          await setDoc(docRef, {
+            usuarios: [user.uid]
+          });
+        } else {
+          await updateDoc(docRef, {
+            usuarios: arrayUnion(user.uid)
+          });
+        }
+        this.usuarioParticipa = true;
+        this.participantes = this.participantes + 1;
+        this.participacoesMap[projetoId] = this.participantes;
+      }
+    } catch (error: any) {
+      console.error('Erro ao confirmar participação:', error);
+      if (error?.code === 'permission-denied') {
+        alert('Sem permissão no Firestore. Atualize as regras de segurança da coleção "participacoes".');
+      } else {
+        alert('Erro ao confirmar participação. Tente novamente.');
+      }
+    }
   }
 
   async toggleFavorito() {

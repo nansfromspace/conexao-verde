@@ -129,6 +129,11 @@
       <p>{{ projeto.endereco }}</p>
       <p>{{ projeto.horario }}</p>
       <p>{{ projeto.nomeOng }}</p>
+      <p class="participantes-card">
+        <i class="fa-solid fa-users"></i>
+        {{ participacoesMap[projeto.id] || 0 }}
+        {{ (participacoesMap[projeto.id] || 0) === 1 ? 'confirmado' : 'confirmados' }}
+      </p>
       <button class="botao-vermais" (click)="abrirDetalhes(projeto)">ver mais</button>
     </div>
   </div>
@@ -147,14 +152,40 @@
   <div class="detalhes-conteudo">
     <h2 class="titulo-modal">{{ projetoSelecionado?.nome }}</h2>
 
+    <span *ngIf="projetoSelecionado?.tipo" class="badge-tipo">
+      {{ projetoSelecionado?.tipo }}
+    </span>
+
     <p><i class="fa-solid fa-location-dot"></i> {{ projetoSelecionado?.endereco }}</p>
     <p><i class="fa-solid fa-clock"></i> {{ projetoSelecionado?.horario }}</p>
     <p><i class="fa-solid fa-leaf"></i> {{ projetoSelecionado?.nomeOng }}</p>
+
+    <div *ngIf="projetoSelecionado?.diasSemana?.length" class="dias-projeto">
+      <i class="fa-solid fa-calendar-days"></i>
+      <span *ngFor="let dia of projetoSelecionado.diasSemana" class="badge-dia">{{ dia }}</span>
+    </div>
+
+    <div class="participantes-info">
+      <i class="fa-solid fa-users"></i>
+      <span>
+        <strong>{{ participantes }}</strong>
+        {{ participantes === 1 ? 'pessoa confirmou' : 'pessoas confirmaram' }} participação
+      </span>
+    </div>
 
     <div class="like-container" (click)="toggleFavorito()">
       <i [class]="projetoFavoritado ? 'fa-solid fa-heart favoritado' : 'fa-regular fa-heart'"></i>
       <span>{{ projetoFavoritado ? 'Favoritado' : 'Favoritar' }}</span>
     </div>
+
+    <button
+      class="botao-participar"
+      [class.confirmado]="usuarioParticipa"
+      (click)="toggleParticipacao()"
+    >
+      <i [class]="usuarioParticipa ? 'fa-solid fa-circle-check' : 'fa-regular fa-circle-check'"></i>
+      {{ usuarioParticipa ? 'Você confirmou! Toque para cancelar' : 'Confirmar participação' }}
+    </button>
 
     <button class="botao-whatsapp" (click)="abrirWhatsApp()">
       <i class="fa-brands fa-whatsapp"></i>
